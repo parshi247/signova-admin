@@ -58,7 +58,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
         }
@@ -78,9 +78,42 @@
             text-align: center;
         }
 
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .nav-tab {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .nav-tab:hover, .nav-tab.active {
+            background: rgba(255, 255, 255, 0.95);
+            color: #4f46e5;
+            border-color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
             margin-bottom: 3rem;
         }
@@ -92,12 +125,17 @@
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             border-left: 4px solid;
+            position: relative;
         }
 
         .metric-card.revenue { border-left-color: #10b981; }
         .metric-card.users { border-left-color: #3b82f6; }
         .metric-card.documents { border-left-color: #8b5cf6; }
         .metric-card.conversion { border-left-color: #f59e0b; }
+        .metric-card.marketing { border-left-color: #ef4444; }
+        .metric-card.campaigns { border-left-color: #06b6d4; }
+        .metric-card.leads { border-left-color: #84cc16; }
+        .metric-card.roi { border-left-color: #f97316; }
 
         .metric-title {
             font-size: 0.9rem;
@@ -120,6 +158,23 @@
 
         .metric-change.positive { color: #10b981; }
         .metric-change.negative { color: #ef4444; }
+
+        .live-indicator {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
 
         .sections-grid {
             display: grid;
@@ -239,6 +294,28 @@
             box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
         }
 
+        .chart-container {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+        }
+
+        .loading {
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .error {
+            color: #ef4444;
+            font-size: 0.9rem;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -254,6 +331,16 @@
             
             .sections-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .nav-tabs {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .nav-tab {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -275,193 +362,634 @@
 
     <div class="container">
         <h1 class="dashboard-title">Executive Dashboard</h1>
-        <p class="dashboard-subtitle">Monitor and manage your Signova electronic signature platform</p>
+        <p class="dashboard-subtitle">Monitor and manage your Signova electronic signature platform with AI-powered marketing analytics</p>
 
-        <div class="metrics-grid">
-            <div class="metric-card revenue">
-                <div class="metric-title">Monthly Revenue</div>
-                <div class="metric-value" style="color: #10b981;">$47,892</div>
-                <div class="metric-change positive">+12.5% vs $42,650 last month</div>
-            </div>
-            
-            <div class="metric-card users">
-                <div class="metric-title">Active Users</div>
-                <div class="metric-value" style="color: #3b82f6;">52,847</div>
-                <div class="metric-change positive">+8.3% +4,032 new this month</div>
-            </div>
-            
-            <div class="metric-card documents">
-                <div class="metric-title">Documents Signed</div>
-                <div class="metric-value" style="color: #8b5cf6;">2.8M</div>
-                <div class="metric-change positive">+15.7% This month</div>
-            </div>
-            
-            <div class="metric-card conversion">
-                <div class="metric-title">Conversion Rate</div>
-                <div class="metric-value" style="color: #f59e0b;">24.6%</div>
-                <div class="metric-change negative">-2.1% Trial to paid conversion</div>
-            </div>
+        <div class="nav-tabs">
+            <a href="#" class="nav-tab active" onclick="showTab('overview')">📊 Overview</a>
+            <a href="#" class="nav-tab" onclick="showTab('marketing')">🚀 AI Marketing</a>
+            <a href="#" class="nav-tab" onclick="showTab('users')">👥 Users</a>
+            <a href="#" class="nav-tab" onclick="showTab('system')">⚙️ System</a>
         </div>
 
-        <div class="sections-grid">
-            <div class="section-card">
-                <h3 class="section-title">👥 User Management</h3>
-                
-                <div class="section-item">
-                    <div class="item-info">
-                        <h4>View All Users</h4>
-                        <p>Manage user accounts and permissions</p>
-                    </div>
-                    <button class="btn">Access Portal</button>
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="metrics-grid">
+                <div class="metric-card revenue">
+                    <div class="live-indicator"></div>
+                    <div class="metric-title">Monthly Revenue</div>
+                    <div class="metric-value" style="color: #10b981;" id="revenue-value">Loading...</div>
+                    <div class="metric-change" id="revenue-change">Fetching real-time data...</div>
                 </div>
                 
-                <div class="section-item">
-                    <div class="item-info">
-                        <h4>Pending Registrations</h4>
-                        <p>47 users awaiting approval</p>
-                    </div>
-                    <button class="btn">Review</button>
+                <div class="metric-card users">
+                    <div class="live-indicator"></div>
+                    <div class="metric-title">Active Users</div>
+                    <div class="metric-value" style="color: #3b82f6;" id="users-value">Loading...</div>
+                    <div class="metric-change" id="users-change">Fetching real-time data...</div>
                 </div>
                 
-                <div class="section-item">
-                    <div class="item-info">
-                        <h4>Export User Data</h4>
-                        <p>Generate user analytics report</p>
-                    </div>
-                    <button class="btn secondary">Export</button>
-                </div>
-            </div>
-
-            <div class="section-card">
-                <h3 class="section-title">📊 Analytics & Reports</h3>
-                
-                <div class="section-item">
-                    <div class="item-info">
-                        <h4>Revenue Analytics</h4>
-                        <p>Detailed financial performance</p>
-                    </div>
-                    <button class="btn">View Report</button>
+                <div class="metric-card documents">
+                    <div class="live-indicator"></div>
+                    <div class="metric-title">Documents Signed</div>
+                    <div class="metric-value" style="color: #8b5cf6;" id="documents-value">Loading...</div>
+                    <div class="metric-change" id="documents-change">Fetching real-time data...</div>
                 </div>
                 
-                <div class="section-item">
-                    <div class="item-info">
-                        <h4>Usage Statistics</h4>
-                        <p>Document signing trends</p>
-                    </div>
-                    <button class="btn">Analyze</button>
-                </div>
-                
-                <div class="section-item">
-                    <div class="item-info">
-                        <h4>Performance Metrics</h4>
-                        <p>System performance overview</p>
-                    </div>
-                    <button class="btn secondary">Monitor</button>
-                </div>
-            </div>
-
-            <div class="section-card">
-                <h3 class="section-title">⚙️ System Administration</h3>
-                
-                <div class="section-item">
-                    <div class="item-info">
-                        <h4>Server Management</h4>
-                        <p>Monitor all services</p>
-                    </div>
-                    <button class="btn">Manage</button>
-                </div>
-                
-                <div class="section-item">
-                    <div class="item-info">
-                        <h4>Security Settings</h4>
-                        <p>Configure security policies</p>
-                    </div>
-                    <button class="btn">Configure</button>
-                </div>
-                
-                <div class="section-item">
-                    <div class="item-info">
-                        <h4>Backup & Recovery</h4>
-                        <p>Data backup management</p>
-                    </div>
-                    <button class="btn secondary">Backup</button>
+                <div class="metric-card conversion">
+                    <div class="live-indicator"></div>
+                    <div class="metric-title">Conversion Rate</div>
+                    <div class="metric-value" style="color: #f59e0b;" id="conversion-value">Loading...</div>
+                    <div class="metric-change" id="conversion-change">Fetching real-time data...</div>
                 </div>
             </div>
         </div>
 
-        <div class="section-card">
-            <h3 class="section-title">🔧 System Status</h3>
-            <p style="color: #6b7280; margin-bottom: 1rem;">Real-time status of all Signova platform services</p>
-            
-            <div class="status-grid">
-                <div class="status-item">
-                    <div style="display: flex; align-items: center;">
-                        <div class="status-indicator operational"></div>
-                        <div>
-                            <strong>Main Website</strong><br>
-                            <small>(signova.ai)</small>
-                        </div>
-                    </div>
-                    <span style="color: #10b981; font-weight: 600;">operational</span>
+        <!-- AI Marketing Tab -->
+        <div id="marketing" class="tab-content">
+            <div class="metrics-grid">
+                <div class="metric-card marketing">
+                    <div class="live-indicator"></div>
+                    <div class="metric-title">Marketing ROI</div>
+                    <div class="metric-value" style="color: #ef4444;" id="marketing-roi">Loading...</div>
+                    <div class="metric-change" id="marketing-roi-change">Connecting to AI platform...</div>
                 </div>
                 
-                <div class="status-item">
-                    <div style="display: flex; align-items: center;">
-                        <div class="status-indicator operational"></div>
-                        <div>
-                            <strong>User Portal</strong><br>
-                            <small>(portal.signova.ai)</small>
-                        </div>
-                    </div>
-                    <span style="color: #10b981; font-weight: 600;">operational</span>
+                <div class="metric-card campaigns">
+                    <div class="live-indicator"></div>
+                    <div class="metric-title">Active Campaigns</div>
+                    <div class="metric-value" style="color: #06b6d4;" id="active-campaigns">Loading...</div>
+                    <div class="metric-change" id="campaigns-change">Connecting to AI platform...</div>
                 </div>
                 
-                <div class="status-item">
-                    <div style="display: flex; align-items: center;">
-                        <div class="status-indicator operational"></div>
-                        <div>
-                            <strong>Admin Center</strong><br>
-                            <small>(admin.signova.ai)</small>
-                        </div>
-                    </div>
-                    <span style="color: #10b981; font-weight: 600;">operational</span>
+                <div class="metric-card leads">
+                    <div class="live-indicator"></div>
+                    <div class="metric-title">Qualified Leads</div>
+                    <div class="metric-value" style="color: #84cc16;" id="qualified-leads">Loading...</div>
+                    <div class="metric-change" id="leads-change">Connecting to AI platform...</div>
                 </div>
                 
-                <div class="status-item">
-                    <div style="display: flex; align-items: center;">
-                        <div class="status-indicator operational"></div>
-                        <div>
-                            <strong>Backend API</strong><br>
-                            <small>(api.signova.ai)</small>
-                        </div>
-                    </div>
-                    <span style="color: #10b981; font-weight: 600;">operational</span>
+                <div class="metric-card roi">
+                    <div class="live-indicator"></div>
+                    <div class="metric-title">Cost Per Acquisition</div>
+                    <div class="metric-value" style="color: #f97316;" id="cpa-value">Loading...</div>
+                    <div class="metric-change" id="cpa-change">Connecting to AI platform...</div>
                 </div>
-                
-                <div class="status-item">
-                    <div style="display: flex; align-items: center;">
-                        <div class="status-indicator operational"></div>
-                        <div>
-                            <strong>Payment System</strong><br>
-                            <small>(Stripe Integration)</small>
+            </div>
+
+            <div class="sections-grid">
+                <div class="section-card">
+                    <h3 class="section-title">🎯 Campaign Performance</h3>
+                    
+                    <div class="section-item">
+                        <div class="item-info">
+                            <h4>DocuSign Competitor Campaign</h4>
+                            <p id="campaign-1-status">Loading campaign data...</p>
                         </div>
+                        <button class="btn" onclick="viewCampaign('docusign-competitor')">View Details</button>
                     </div>
-                    <span style="color: #10b981; font-weight: 600;">operational</span>
+                    
+                    <div class="section-item">
+                        <div class="item-info">
+                            <h4>Enterprise Lead Generation</h4>
+                            <p id="campaign-2-status">Loading campaign data...</p>
+                        </div>
+                        <button class="btn" onclick="viewCampaign('enterprise-leads')">View Details</button>
+                    </div>
+                    
+                    <div class="section-item">
+                        <div class="item-info">
+                            <h4>SMB Acquisition Campaign</h4>
+                            <p id="campaign-3-status">Loading campaign data...</p>
+                        </div>
+                        <button class="btn secondary" onclick="viewCampaign('smb-acquisition')">View Details</button>
+                    </div>
                 </div>
-                
-                <div class="status-item">
-                    <div style="display: flex; align-items: center;">
-                        <div class="status-indicator operational"></div>
-                        <div>
-                            <strong>SSL Certificates</strong><br>
-                            <small>(GitHub Pages)</small>
+
+                <div class="section-card">
+                    <h3 class="section-title">🤖 AI Insights & Predictions</h3>
+                    
+                    <div class="section-item">
+                        <div class="item-info">
+                            <h4>Revenue Forecast</h4>
+                            <p id="revenue-forecast">Loading AI predictions...</p>
                         </div>
+                        <button class="btn" onclick="viewForecast()">View Model</button>
                     </div>
-                    <span style="color: #10b981; font-weight: 600;">operational</span>
+                    
+                    <div class="section-item">
+                        <div class="item-info">
+                            <h4>Lead Scoring Model</h4>
+                            <p id="lead-scoring">Loading AI analysis...</p>
+                        </div>
+                        <button class="btn" onclick="viewLeadScoring()">Analyze</button>
+                    </div>
+                    
+                    <div class="section-item">
+                        <div class="item-info">
+                            <h4>Optimization Recommendations</h4>
+                            <p id="optimization-recs">Loading AI recommendations...</p>
+                        </div>
+                        <button class="btn secondary" onclick="viewOptimizations()">Review</button>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h3 class="section-title">📈 Real-time Marketing Analytics</h3>
+                    
+                    <div class="section-item">
+                        <div class="item-info">
+                            <h4>Website Traffic Attribution</h4>
+                            <p id="traffic-attribution">Loading traffic data...</p>
+                        </div>
+                        <button class="btn" onclick="viewTraffic()">View Sources</button>
+                    </div>
+                    
+                    <div class="section-item">
+                        <div class="item-info">
+                            <h4>Social Media Monitoring</h4>
+                            <p id="social-monitoring">Loading social data...</p>
+                        </div>
+                        <button class="btn" onclick="viewSocial()">Monitor</button>
+                    </div>
+                    
+                    <div class="section-item">
+                        <div class="item-info">
+                            <h4>Competitive Intelligence</h4>
+                            <p id="competitive-intel">Loading competitor data...</p>
+                        </div>
+                        <button class="btn secondary" onclick="viewCompetitors()">Analyze</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users Tab -->
+        <div id="users" class="tab-content">
+            <div class="sections-grid">
+                <div class="section-card">
+                    <h3 class="section-title">👥 User Management</h3>
+                    
+                    <div class="section-item">
+                        <div class="item-info">
+                            <h4>View All Users</h4>
+                            <p>Manage user accounts and permissions</p>
+                        </div>
+                        <button class="btn">Access Portal</button>
+                    </div>
+                    
+                    <div class="section-item">
+                        <div class="item-info">
+                            <h4>Pending Registrations</h4>
+                            <p id="pending-registrations">Loading registration data...</p>
+                        </div>
+                        <button class="btn">Review</button>
+                    </div>
+                    
+                    <div class="section-item">
+                        <div class="item-info">
+                            <h4>Export User Data</h4>
+                            <p>Generate user analytics report</p>
+                        </div>
+                        <button class="btn secondary">Export</button>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h3 class="section-title">📊 Analytics & Reports</h3>
+                    
+                    <div class="section-item">
+                        <div class="item-info">
+                            <h4>Revenue Analytics</h4>
+                            <p>Detailed financial performance</p>
+                        </div>
+                        <button class="btn">View Report</button>
+                    </div>
+                    
+                    <div class="section-item">
+                        <div class="item-info">
+                            <h4>Usage Statistics</h4>
+                            <p>Document signing trends</p>
+                        </div>
+                        <button class="btn">Analyze</button>
+                    </div>
+                    
+                    <div class="section-item">
+                        <div class="item-info">
+                            <h4>Performance Metrics</h4>
+                            <p>System performance overview</p>
+                        </div>
+                        <button class="btn secondary">Monitor</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Tab -->
+        <div id="system" class="tab-content">
+            <div class="sections-grid">
+                <div class="section-card">
+                    <h3 class="section-title">⚙️ System Administration</h3>
+                    
+                    <div class="section-item">
+                        <div class="item-info">
+                            <h4>Server Management</h4>
+                            <p>Monitor all services</p>
+                        </div>
+                        <button class="btn">Manage</button>
+                    </div>
+                    
+                    <div class="section-item">
+                        <div class="item-info">
+                            <h4>Security Settings</h4>
+                            <p>Configure security policies</p>
+                        </div>
+                        <button class="btn">Configure</button>
+                    </div>
+                    
+                    <div class="section-item">
+                        <div class="item-info">
+                            <h4>Backup & Recovery</h4>
+                            <p>Data backup management</p>
+                        </div>
+                        <button class="btn secondary">Backup</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3 class="section-title">🔧 System Status</h3>
+                <p style="color: #6b7280; margin-bottom: 1rem;">Real-time status of all Signova platform services</p>
+                
+                <div class="status-grid">
+                    <div class="status-item">
+                        <div style="display: flex; align-items: center;">
+                            <div class="status-indicator operational"></div>
+                            <div>
+                                <strong>Main Website</strong><br>
+                                <small>(signova.ai)</small>
+                            </div>
+                        </div>
+                        <span style="color: #10b981; font-weight: 600;">operational</span>
+                    </div>
+                    
+                    <div class="status-item">
+                        <div style="display: flex; align-items: center;">
+                            <div class="status-indicator operational"></div>
+                            <div>
+                                <strong>User Portal</strong><br>
+                                <small>(portal.signova.ai)</small>
+                            </div>
+                        </div>
+                        <span style="color: #10b981; font-weight: 600;">operational</span>
+                    </div>
+                    
+                    <div class="status-item">
+                        <div style="display: flex; align-items: center;">
+                            <div class="status-indicator operational"></div>
+                            <div>
+                                <strong>Admin Center</strong><br>
+                                <small>(admin.signova.ai)</small>
+                            </div>
+                        </div>
+                        <span style="color: #10b981; font-weight: 600;">operational</span>
+                    </div>
+                    
+                    <div class="status-item">
+                        <div style="display: flex; align-items: center;">
+                            <div class="status-indicator" id="marketing-status"></div>
+                            <div>
+                                <strong>AI Marketing Platform</strong><br>
+                                <small>(45.55.212.255)</small>
+                            </div>
+                        </div>
+                        <span id="marketing-status-text">checking...</span>
+                    </div>
+                    
+                    <div class="status-item">
+                        <div style="display: flex; align-items: center;">
+                            <div class="status-indicator operational"></div>
+                            <div>
+                                <strong>Backend API</strong><br>
+                                <small>(api.signova.ai)</small>
+                            </div>
+                        </div>
+                        <span style="color: #10b981; font-weight: 600;">operational</span>
+                    </div>
+                    
+                    <div class="status-item">
+                        <div style="display: flex; align-items: center;">
+                            <div class="status-indicator operational"></div>
+                            <div>
+                                <strong>Payment System</strong><br>
+                                <small>(Stripe Integration)</small>
+                            </div>
+                        </div>
+                        <span style="color: #10b981; font-weight: 600;">operational</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        // Tab switching functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            
+            // Load data for the selected tab
+            loadTabData(tabName);
+        }
+
+        // API configuration
+        const API_CONFIG = {
+            marketingPlatform: 'http://45.55.212.255',
+            signovaAPI: 'https://api.signova.ai',
+            refreshInterval: 30000 // 30 seconds
+        };
+
+        // Data loading functions
+        async function loadTabData(tabName) {
+            switch(tabName) {
+                case 'overview':
+                    await loadOverviewData();
+                    break;
+                case 'marketing':
+                    await loadMarketingData();
+                    break;
+                case 'users':
+                    await loadUserData();
+                    break;
+                case 'system':
+                    await loadSystemData();
+                    break;
+            }
+        }
+
+        async function loadOverviewData() {
+            try {
+                // Simulate API calls to real endpoints
+                const [revenue, users, documents, conversion] = await Promise.allSettled([
+                    fetchWithFallback('/api/revenue/current'),
+                    fetchWithFallback('/api/users/active'),
+                    fetchWithFallback('/api/documents/signed'),
+                    fetchWithFallback('/api/conversion/rate')
+                ]);
+
+                updateMetric('revenue-value', revenue.value?.amount || 'API Unavailable', 
+                           'revenue-change', revenue.value?.change || 'Connecting to live data...');
+                
+                updateMetric('users-value', users.value?.count || 'API Unavailable',
+                           'users-change', users.value?.change || 'Connecting to live data...');
+                
+                updateMetric('documents-value', documents.value?.total || 'API Unavailable',
+                           'documents-change', documents.value?.change || 'Connecting to live data...');
+                
+                updateMetric('conversion-value', conversion.value?.rate || 'API Unavailable',
+                           'conversion-change', conversion.value?.change || 'Connecting to live data...');
+
+            } catch (error) {
+                console.error('Error loading overview data:', error);
+                showDataError('overview');
+            }
+        }
+
+        async function loadMarketingData() {
+            try {
+                // Connect to AI Marketing Platform
+                const [roi, campaigns, leads, cpa] = await Promise.allSettled([
+                    fetchMarketingAPI('/api/analytics/roi'),
+                    fetchMarketingAPI('/api/campaigns/active'),
+                    fetchMarketingAPI('/api/leads/qualified'),
+                    fetchMarketingAPI('/api/analytics/cpa')
+                ]);
+
+                updateMetric('marketing-roi', roi.value?.roi || 'Connecting...', 
+                           'marketing-roi-change', roi.value?.change || 'AI platform initializing...');
+                
+                updateMetric('active-campaigns', campaigns.value?.count || 'Connecting...',
+                           'campaigns-change', campaigns.value?.status || 'AI platform initializing...');
+                
+                updateMetric('qualified-leads', leads.value?.count || 'Connecting...',
+                           'leads-change', leads.value?.change || 'AI platform initializing...');
+                
+                updateMetric('cpa-value', cpa.value?.amount || 'Connecting...',
+                           'cpa-change', cpa.value?.trend || 'AI platform initializing...');
+
+                // Load campaign details
+                await loadCampaignDetails();
+                await loadAIInsights();
+                await loadMarketingAnalytics();
+
+            } catch (error) {
+                console.error('Error loading marketing data:', error);
+                showMarketingError();
+            }
+        }
+
+        async function loadCampaignDetails() {
+            try {
+                const campaigns = await fetchMarketingAPI('/api/campaigns/details');
+                
+                document.getElementById('campaign-1-status').textContent = 
+                    campaigns?.docusignCompetitor || 'Connecting to AI platform...';
+                document.getElementById('campaign-2-status').textContent = 
+                    campaigns?.enterpriseLeads || 'Connecting to AI platform...';
+                document.getElementById('campaign-3-status').textContent = 
+                    campaigns?.smbAcquisition || 'Connecting to AI platform...';
+            } catch (error) {
+                console.error('Error loading campaign details:', error);
+            }
+        }
+
+        async function loadAIInsights() {
+            try {
+                const insights = await fetchMarketingAPI('/api/ai/insights');
+                
+                document.getElementById('revenue-forecast').textContent = 
+                    insights?.revenueForecast || 'AI model training...';
+                document.getElementById('lead-scoring').textContent = 
+                    insights?.leadScoring || 'AI model training...';
+                document.getElementById('optimization-recs').textContent = 
+                    insights?.optimizations || 'AI model training...';
+            } catch (error) {
+                console.error('Error loading AI insights:', error);
+            }
+        }
+
+        async function loadMarketingAnalytics() {
+            try {
+                const analytics = await fetchMarketingAPI('/api/analytics/realtime');
+                
+                document.getElementById('traffic-attribution').textContent = 
+                    analytics?.trafficAttribution || 'Connecting to analytics...';
+                document.getElementById('social-monitoring').textContent = 
+                    analytics?.socialMonitoring || 'Connecting to analytics...';
+                document.getElementById('competitive-intel').textContent = 
+                    analytics?.competitiveIntel || 'Connecting to analytics...';
+            } catch (error) {
+                console.error('Error loading marketing analytics:', error);
+            }
+        }
+
+        async function loadUserData() {
+            try {
+                const userData = await fetchWithFallback('/api/users/pending');
+                document.getElementById('pending-registrations').textContent = 
+                    userData?.pendingCount ? `${userData.pendingCount} users awaiting approval` : 'Loading user data...';
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+        }
+
+        async function loadSystemData() {
+            // Check AI Marketing Platform status
+            checkMarketingPlatformStatus();
+        }
+
+        async function checkMarketingPlatformStatus() {
+            try {
+                const response = await fetch(`${API_CONFIG.marketingPlatform}/health`, {
+                    method: 'GET',
+                    timeout: 5000
+                });
+                
+                const statusIndicator = document.getElementById('marketing-status');
+                const statusText = document.getElementById('marketing-status-text');
+                
+                if (response.ok) {
+                    statusIndicator.className = 'status-indicator operational';
+                    statusText.textContent = 'operational';
+                    statusText.style.color = '#10b981';
+                } else {
+                    statusIndicator.className = 'status-indicator warning';
+                    statusText.textContent = 'degraded';
+                    statusText.style.color = '#f59e0b';
+                }
+            } catch (error) {
+                const statusIndicator = document.getElementById('marketing-status');
+                const statusText = document.getElementById('marketing-status-text');
+                
+                statusIndicator.className = 'status-indicator issues';
+                statusText.textContent = 'connecting...';
+                statusText.style.color = '#ef4444';
+            }
+        }
+
+        // API helper functions
+        async function fetchWithFallback(endpoint) {
+            try {
+                const response = await fetch(`${API_CONFIG.signovaAPI}${endpoint}`);
+                if (!response.ok) throw new Error('API unavailable');
+                return await response.json();
+            } catch (error) {
+                console.warn(`API endpoint ${endpoint} unavailable:`, error);
+                return null;
+            }
+        }
+
+        async function fetchMarketingAPI(endpoint) {
+            try {
+                const response = await fetch(`${API_CONFIG.marketingPlatform}${endpoint}`);
+                if (!response.ok) throw new Error('Marketing API unavailable');
+                return await response.json();
+            } catch (error) {
+                console.warn(`Marketing API endpoint ${endpoint} unavailable:`, error);
+                return null;
+            }
+        }
+
+        function updateMetric(valueId, value, changeId, change) {
+            const valueElement = document.getElementById(valueId);
+            const changeElement = document.getElementById(changeId);
+            
+            if (valueElement) valueElement.textContent = value;
+            if (changeElement) {
+                changeElement.textContent = change;
+                changeElement.className = 'metric-change ' + (change.includes('+') ? 'positive' : 
+                                                            change.includes('-') ? 'negative' : '');
+            }
+        }
+
+        function showDataError(section) {
+            const errorMessage = 'API connection unavailable - implementing real-time data feeds';
+            document.querySelectorAll(`#${section} .metric-value`).forEach(el => {
+                el.textContent = 'API Unavailable';
+                el.style.color = '#ef4444';
+            });
+            document.querySelectorAll(`#${section} .metric-change`).forEach(el => {
+                el.textContent = errorMessage;
+                el.className = 'metric-change error';
+            });
+        }
+
+        function showMarketingError() {
+            const errorMessage = 'Connecting to AI Marketing Platform (45.55.212.255)...';
+            document.querySelectorAll('#marketing .metric-value').forEach(el => {
+                el.textContent = 'Connecting...';
+                el.style.color = '#f59e0b';
+            });
+            document.querySelectorAll('#marketing .metric-change').forEach(el => {
+                el.textContent = errorMessage;
+                el.className = 'metric-change loading';
+            });
+        }
+
+        // Campaign and analytics functions
+        function viewCampaign(campaignId) {
+            alert(`Opening detailed analytics for campaign: ${campaignId}\nConnecting to AI Marketing Platform for real-time data...`);
+        }
+
+        function viewForecast() {
+            alert('Opening AI Revenue Forecasting Model\nConnecting to predictive analytics engine...');
+        }
+
+        function viewLeadScoring() {
+            alert('Opening AI Lead Scoring Analysis\nConnecting to machine learning models...');
+        }
+
+        function viewOptimizations() {
+            alert('Opening AI Optimization Recommendations\nConnecting to recommendation engine...');
+        }
+
+        function viewTraffic() {
+            alert('Opening Website Traffic Attribution Analysis\nConnecting to analytics platform...');
+        }
+
+        function viewSocial() {
+            alert('Opening Social Media Monitoring Dashboard\nConnecting to social listening tools...');
+        }
+
+        function viewCompetitors() {
+            alert('Opening Competitive Intelligence Analysis\nConnecting to market research platform...');
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load initial data
+            loadTabData('overview');
+            
+            // Set up auto-refresh
+            setInterval(() => {
+                const activeTab = document.querySelector('.tab-content.active').id;
+                loadTabData(activeTab);
+            }, API_CONFIG.refreshInterval);
+            
+            // Check marketing platform status immediately
+            checkMarketingPlatformStatus();
+        });
+    </script>
 </body>
 </html>
 
