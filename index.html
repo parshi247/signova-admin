@@ -22,10 +22,13 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .logo {
@@ -38,19 +41,44 @@
             text-decoration: none;
         }
 
+        .logo-icon {
+            background: #4f46e5;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
         .admin-badge {
             background: #ef4444;
             color: white;
             padding: 0.25rem 0.5rem;
             border-radius: 4px;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: bold;
+            margin-left: 0.5rem;
         }
 
         .user-info {
             display: flex;
             align-items: center;
             gap: 1rem;
+        }
+
+        .user-avatar {
+            background: #4f46e5;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
 
         .logout-btn {
@@ -66,16 +94,7 @@
 
         .logout-btn:hover {
             background: #dc2626;
-        }
-
-        .admin-user {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: #4f46e5;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
+            transform: translateY(-1px);
         }
 
         .container {
@@ -85,44 +104,72 @@
         }
 
         .dashboard-title {
+            text-align: center;
             color: white;
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            text-align: center;
-        }
-
-        .dashboard-subtitle {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.1rem;
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-
-        .nav-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
             margin-bottom: 2rem;
+        }
+
+        .dashboard-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-title p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            justify-content: center;
             flex-wrap: wrap;
         }
 
-        .nav-tab {
-            background: rgba(255, 255, 255, 0.1);
+        .tab {
+            background: rgba(255, 255, 255, 0.2);
             color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: none;
             padding: 0.75rem 1.5rem;
-            border-radius: 25px;
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+            backdrop-filter: blur(10px);
+            position: relative;
         }
 
-        .nav-tab:hover, .nav-tab.active {
+        .tab.active {
             background: rgba(255, 255, 255, 0.95);
-            color: #4f46e5;
-            border-color: white;
+            color: #333;
+            transform: translateY(-2px);
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .tab.active:hover {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
 
         .tab-content {
@@ -137,7 +184,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
 
         .metric-card {
@@ -146,30 +193,20 @@
             padding: 1.5rem;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            border-left: 4px solid;
             position: relative;
-            transition: transform 0.2s;
+            transition: all 0.2s;
         }
 
         .metric-card:hover {
             transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
         }
-
-        .metric-card.revenue { border-left-color: #10b981; }
-        .metric-card.users { border-left-color: #3b82f6; }
-        .metric-card.documents { border-left-color: #8b5cf6; }
-        .metric-card.conversion { border-left-color: #f59e0b; }
-        .metric-card.marketing { border-left-color: #ef4444; }
-        .metric-card.campaigns { border-left-color: #06b6d4; }
-        .metric-card.leads { border-left-color: #84cc16; }
-        .metric-card.roi { border-left-color: #f97316; }
-        .metric-card.traffic { border-left-color: #ec4899; }
-        .metric-card.engagement { border-left-color: #14b8a6; }
 
         .metric-title {
             font-size: 0.9rem;
             color: #6b7280;
             margin-bottom: 0.5rem;
+            font-weight: 500;
         }
 
         .metric-value {
@@ -180,14 +217,20 @@
 
         .metric-change {
             font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
+            font-weight: 500;
         }
 
-        .metric-change.positive { color: #10b981; }
-        .metric-change.negative { color: #ef4444; }
-        .metric-change.neutral { color: #6b7280; }
+        .metric-change.positive {
+            color: #10b981;
+        }
+
+        .metric-change.negative {
+            color: #ef4444;
+        }
+
+        .metric-change.neutral {
+            color: #6b7280;
+        }
 
         .live-indicator {
             position: absolute;
@@ -200,6 +243,16 @@
             animation: pulse 2s infinite;
         }
 
+        .connecting-indicator {
+            background: #f59e0b;
+            animation: pulse 1s infinite;
+        }
+
+        .error-indicator {
+            background: #ef4444;
+            animation: pulse 0.5s infinite;
+        }
+
         @keyframes pulse {
             0% { opacity: 1; }
             50% { opacity: 0.5; }
@@ -208,7 +261,7 @@
 
         .sections-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 2rem;
             margin-bottom: 3rem;
         }
@@ -216,40 +269,103 @@
         .section-card {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            padding: 1.5rem;
+            padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .section-title {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: bold;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            color: #333;
         }
 
-        .section-item {
+        .api-status {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 0.75rem 0;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: #f9fafb;
+            border-radius: 8px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10b981;
+        }
+
+        .status-dot.connecting {
+            background: #f59e0b;
+            animation: pulse 1s infinite;
+        }
+
+        .status-dot.error {
+            background: #ef4444;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .data-table th,
+        .data-table td {
+            text-align: left;
+            padding: 0.75rem;
             border-bottom: 1px solid #e5e7eb;
         }
 
-        .section-item:last-child {
-            border-bottom: none;
-        }
-
-        .item-info h4 {
+        .data-table th {
+            background: #f9fafb;
             font-weight: 600;
-            margin-bottom: 0.25rem;
+            color: #374151;
         }
 
-        .item-info p {
-            color: #6b7280;
-            font-size: 0.9rem;
+        .loading-skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 4px;
+            height: 20px;
+            margin: 0.25rem 0;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .alert.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .alert.warning {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+
+        .alert.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
         }
 
         .btn {
@@ -261,6 +377,8 @@
             cursor: pointer;
             font-weight: 500;
             transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .btn:hover {
@@ -284,100 +402,23 @@
             background: #059669;
         }
 
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+        .btn.danger {
+            background: #ef4444;
         }
 
-        .status-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem;
-            background: #f9fafb;
-            border-radius: 8px;
-        }
-
-        .status-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 0.5rem;
-        }
-
-        .status-indicator.operational { background: #10b981; }
-        .status-indicator.warning { background: #f59e0b; }
-        .status-indicator.issues { background: #ef4444; }
-
-        .back-button {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #4f46e5;
-            border: 2px solid #4f46e5;
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-        }
-
-        .back-button:hover {
-            background: #4f46e5;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+        .btn.danger:hover {
+            background: #dc2626;
         }
 
         .chart-container {
-            background: white;
+            height: 300px;
+            background: #f9fafb;
             border-radius: 8px;
-            padding: 1rem;
-            margin-top: 1rem;
-            height: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #6b7280;
-        }
-
-        .loading {
-            color: #6b7280;
-            font-style: italic;
-        }
-
-        .error {
-            color: #ef4444;
-            font-size: 0.9rem;
-        }
-
-        .success {
-            color: #10b981;
-            font-size: 0.9rem;
-        }
-
-        .alert {
-            background: #fef3c7;
-            border: 1px solid #f59e0b;
-            color: #92400e;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-        }
-
-        .alert.success {
-            background: #d1fae5;
-            border-color: #10b981;
-            color: #065f46;
-        }
-
-        .alert.error {
-            background: #fee2e2;
-            border-color: #ef4444;
-            color: #991b1b;
+            margin: 1rem 0;
         }
 
         @media (max-width: 768px) {
@@ -385,8 +426,12 @@
                 padding: 1rem;
             }
             
-            .dashboard-title {
-                font-size: 2rem;
+            .header {
+                padding: 1rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
             }
             
             .metrics-grid {
@@ -396,602 +441,144 @@
             .sections-grid {
                 grid-template-columns: 1fr;
             }
-
-            .nav-tabs {
-                flex-wrap: wrap;
-                gap: 0.5rem;
-            }
-
-            .nav-tab {
-                padding: 0.5rem 1rem;
-                font-size: 0.9rem;
-            }
-
-            .header {
-                padding: 1rem;
-                flex-direction: column;
-                gap: 1rem;
-            }
         }
     </style>
 </head>
 <body>
-    <a href="https://signova.ai" class="back-button">← Back to Main Site</a>
-    
-    <header class="header">
-        <a href="https://signova.ai" class="logo">
-            <span style="background: #4f46e5; color: white; padding: 0.5rem; border-radius: 8px;">S</span>
+    <div class="header">
+        <a href="#" class="logo">
+            <div class="logo-icon">S</div>
             Signova
             <span class="admin-badge">ADMIN CENTER</span>
         </a>
         <div class="user-info">
-            <div class="admin-user">
-                <span style="background: white; color: #4f46e5; padding: 0.25rem 0.5rem; border-radius: 50%; font-weight: bold;">A</span>
-                <span id="adminEmail">Administrator</span>
-            </div>
+            <div class="user-avatar">A</div>
+            <span id="admin-email">admin@signova.ai</span>
             <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
-    </header>
+    </div>
 
     <div class="container">
-        <h1 class="dashboard-title">Executive Dashboard</h1>
-        <p class="dashboard-subtitle">Monitor and manage your Signova electronic signature platform with AI-powered marketing analytics</p>
+        <div class="dashboard-title">
+            <h1>Executive Dashboard</h1>
+            <p>Real-time monitoring and management of your Signova platform infrastructure</p>
+        </div>
 
-        <div class="nav-tabs">
-            <a href="#" class="nav-tab active" onclick="showTab('overview')">📊 Overview</a>
-            <a href="#" class="nav-tab" onclick="showTab('marketing')">🚀 AI Marketing</a>
-            <a href="#" class="nav-tab" onclick="showTab('analytics')">📈 Analytics</a>
-            <a href="#" class="nav-tab" onclick="showTab('users')">👥 Users</a>
-            <a href="#" class="nav-tab" onclick="showTab('system')">⚙️ System</a>
-            <a href="#" class="nav-tab" onclick="showTab('financial')">💰 Financial</a>
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview')">📊 Overview</button>
+            <button class="tab" onclick="showTab('infrastructure')">🖥️ Infrastructure</button>
+            <button class="tab" onclick="showTab('financial')">💰 Financial</button>
+            <button class="tab" onclick="showTab('analytics')">📈 Analytics</button>
+            <button class="tab" onclick="showTab('users')">👥 Users</button>
+            <button class="tab" onclick="showTab('security')">🔒 Security</button>
+            <button class="tab" onclick="showTab('apis')">🔌 API Status</button>
         </div>
 
         <!-- Overview Tab -->
         <div id="overview" class="tab-content active">
             <div class="metrics-grid">
-                <div class="metric-card revenue">
-                    <div class="live-indicator"></div>
+                <div class="metric-card">
+                    <div class="live-indicator" id="revenue-indicator"></div>
                     <div class="metric-title">Monthly Recurring Revenue</div>
-                    <div class="metric-value" style="color: #10b981;" id="revenue-value">$47,892</div>
-                    <div class="metric-change positive" id="revenue-change">↗ +23.4% from last month</div>
+                    <div class="metric-value" style="color: #10b981;" id="mrr-value">Loading...</div>
+                    <div class="metric-change" id="mrr-change">Connecting to Stripe...</div>
                 </div>
-                
-                <div class="metric-card users">
-                    <div class="live-indicator"></div>
+
+                <div class="metric-card">
+                    <div class="live-indicator" id="users-indicator"></div>
                     <div class="metric-title">Active Users (30 days)</div>
-                    <div class="metric-value" style="color: #3b82f6;" id="users-value">2,847</div>
-                    <div class="metric-change positive" id="users-change">↗ +18.2% from last month</div>
+                    <div class="metric-value" style="color: #3b82f6;" id="active-users">Loading...</div>
+                    <div class="metric-change" id="users-change">Connecting to database...</div>
                 </div>
-                
-                <div class="metric-card documents">
-                    <div class="live-indicator"></div>
+
+                <div class="metric-card">
+                    <div class="live-indicator" id="documents-indicator"></div>
                     <div class="metric-title">Documents Signed (Today)</div>
-                    <div class="metric-value" style="color: #8b5cf6;" id="documents-value">1,234</div>
-                    <div class="metric-change positive" id="documents-change">↗ +12.8% from yesterday</div>
+                    <div class="metric-value" style="color: #8b5cf6;" id="documents-signed">Loading...</div>
+                    <div class="metric-change" id="documents-change">Connecting to API...</div>
                 </div>
-                
-                <div class="metric-card conversion">
-                    <div class="live-indicator"></div>
+
+                <div class="metric-card">
+                    <div class="live-indicator" id="conversion-indicator"></div>
                     <div class="metric-title">Trial to Paid Conversion</div>
-                    <div class="metric-value" style="color: #f59e0b;" id="conversion-value">24.7%</div>
-                    <div class="metric-change positive" id="conversion-change">↗ +3.2% from last week</div>
+                    <div class="metric-value" style="color: #f59e0b;" id="conversion-rate">Loading...</div>
+                    <div class="metric-change" id="conversion-change">Calculating...</div>
                 </div>
 
-                <div class="metric-card traffic">
-                    <div class="live-indicator"></div>
+                <div class="metric-card">
+                    <div class="live-indicator" id="traffic-indicator"></div>
                     <div class="metric-title">Website Traffic (Today)</div>
-                    <div class="metric-value" style="color: #ec4899;" id="traffic-value">8,945</div>
-                    <div class="metric-change positive" id="traffic-change">↗ +15.6% from yesterday</div>
+                    <div class="metric-value" style="color: #ef4444;" id="website-traffic">Loading...</div>
+                    <div class="metric-change" id="traffic-change">Connecting to Cloudflare...</div>
                 </div>
 
-                <div class="metric-card engagement">
-                    <div class="live-indicator"></div>
-                    <div class="metric-title">User Engagement Score</div>
-                    <div class="metric-value" style="color: #14b8a6;" id="engagement-value">87.3%</div>
-                    <div class="metric-change positive" id="engagement-change">↗ +5.1% from last week</div>
+                <div class="metric-card">
+                    <div class="live-indicator" id="uptime-indicator"></div>
+                    <div class="metric-title">System Uptime</div>
+                    <div class="metric-value" style="color: #10b981;" id="system-uptime">Loading...</div>
+                    <div class="metric-change" id="uptime-change">Checking all services...</div>
                 </div>
             </div>
 
             <div class="sections-grid">
                 <div class="section-card">
-                    <h3 class="section-title">🎯 Key Performance Indicators</h3>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Customer Acquisition Cost (CAC)</h4>
-                            <p>$23.45 per customer</p>
-                        </div>
-                        <span style="color: #10b981; font-weight: bold;">-12.3%</span>
+                    <h3 class="section-title">🚀 Real-time Activity</h3>
+                    <div class="api-status">
+                        <div class="status-dot connecting" id="activity-status"></div>
+                        <span>Live Activity Feed</span>
                     </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Customer Lifetime Value (CLV)</h4>
-                            <p>$892.50 average</p>
-                        </div>
-                        <span style="color: #10b981; font-weight: bold;">+18.7%</span>
-                    </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Monthly Churn Rate</h4>
-                            <p>2.3% monthly churn</p>
-                        </div>
-                        <span style="color: #10b981; font-weight: bold;">-0.8%</span>
+                    <div id="activity-feed">
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
                     </div>
                 </div>
 
                 <div class="section-card">
-                    <h3 class="section-title">📊 Real-time Activity</h3>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Documents Processed (Last Hour)</h4>
-                            <p>127 documents signed</p>
-                        </div>
-                        <button class="btn success">Live</button>
+                    <h3 class="section-title">📊 Performance Metrics</h3>
+                    <div class="api-status">
+                        <div class="status-dot connecting" id="performance-status"></div>
+                        <span>System Performance</span>
                     </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>New User Registrations</h4>
-                            <p>34 new users today</p>
-                        </div>
-                        <button class="btn success">Live</button>
-                    </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Payment Transactions</h4>
-                            <p>$12,847 processed today</p>
-                        </div>
-                        <button class="btn success">Live</button>
+                    <div id="performance-metrics">
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- AI Marketing Tab -->
-        <div id="marketing" class="tab-content">
-            <div class="metrics-grid">
-                <div class="metric-card marketing">
-                    <div class="live-indicator"></div>
-                    <div class="metric-title">Marketing ROI</div>
-                    <div class="metric-value" style="color: #ef4444;" id="marketing-roi">347%</div>
-                    <div class="metric-change positive" id="marketing-roi-change">↗ +45.2% this quarter</div>
-                </div>
-                
-                <div class="metric-card campaigns">
-                    <div class="live-indicator"></div>
-                    <div class="metric-title">Active Campaigns</div>
-                    <div class="metric-value" style="color: #06b6d4;" id="active-campaigns">12</div>
-                    <div class="metric-change neutral" id="campaigns-change">3 launching this week</div>
-                </div>
-                
-                <div class="metric-card leads">
-                    <div class="live-indicator"></div>
-                    <div class="metric-title">Qualified Leads (This Week)</div>
-                    <div class="metric-value" style="color: #84cc16;" id="qualified-leads">1,847</div>
-                    <div class="metric-change positive" id="leads-change">↗ +28.9% from last week</div>
-                </div>
-                
-                <div class="metric-card roi">
-                    <div class="live-indicator"></div>
-                    <div class="metric-title">Cost Per Acquisition</div>
-                    <div class="metric-value" style="color: #f97316;" id="cpa-value">$23.45</div>
-                    <div class="metric-change positive" id="cpa-change">↘ -15.3% optimization</div>
-                </div>
-
-                <div class="metric-card traffic">
-                    <div class="live-indicator"></div>
-                    <div class="metric-title">Organic Traffic Growth</div>
-                    <div class="metric-value" style="color: #ec4899;" id="organic-traffic">+156%</div>
-                    <div class="metric-change positive">↗ Year over year</div>
-                </div>
-
-                <div class="metric-card engagement">
-                    <div class="live-indicator"></div>
-                    <div class="metric-title">Social Media Reach</div>
-                    <div class="metric-value" style="color: #14b8a6;" id="social-reach">2.4M</div>
-                    <div class="metric-change positive">↗ +67.8% this month</div>
-                </div>
+        <!-- Infrastructure Tab -->
+        <div id="infrastructure" class="tab-content">
+            <div class="alert success" id="infrastructure-status">
+                <strong>Infrastructure Status:</strong> Connecting to all droplets...
             </div>
 
             <div class="sections-grid">
                 <div class="section-card">
-                    <h3 class="section-title">🎯 Campaign Performance</h3>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>DocuSign Competitor Campaign</h4>
-                            <p>CTR: 4.2% | Conversions: 234 | ROI: 312%</p>
-                        </div>
-                        <button class="btn" onclick="viewCampaign('docusign-competitor')">View Details</button>
+                    <h3 class="section-title">🖥️ DigitalOcean Droplets</h3>
+                    <div class="api-status">
+                        <div class="status-dot connecting" id="do-status"></div>
+                        <span>DigitalOcean API Connection</span>
                     </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Enterprise Lead Generation</h4>
-                            <p>CTR: 3.8% | Conversions: 89 | ROI: 445%</p>
-                        </div>
-                        <button class="btn" onclick="viewCampaign('enterprise-leads')">View Details</button>
-                    </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>SMB Acquisition Campaign</h4>
-                            <p>CTR: 5.1% | Conversions: 567 | ROI: 278%</p>
-                        </div>
-                        <button class="btn secondary" onclick="viewCampaign('smb-acquisition')">View Details</button>
+                    <div id="droplets-list">
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
                     </div>
                 </div>
 
                 <div class="section-card">
-                    <h3 class="section-title">🤖 AI Insights & Predictions</h3>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Revenue Forecast (Next 30 days)</h4>
-                            <p>Predicted: $67,450 (+41% confidence)</p>
-                        </div>
-                        <button class="btn" onclick="viewForecast()">View Model</button>
+                    <h3 class="section-title">🌐 Domain & SSL Status</h3>
+                    <div class="api-status">
+                        <div class="status-dot connecting" id="ssl-status"></div>
+                        <span>SSL Certificate Monitoring</span>
                     </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Lead Scoring Model</h4>
-                            <p>Accuracy: 89.3% | Top segment: Enterprise</p>
-                        </div>
-                        <button class="btn" onclick="viewLeadScoring()">Analyze</button>
-                    </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Optimization Recommendations</h4>
-                            <p>7 actionable insights available</p>
-                        </div>
-                        <button class="btn" onclick="viewOptimizations()">View All</button>
-                    </div>
-                </div>
-
-                <div class="section-card">
-                    <h3 class="section-title">📱 Channel Performance</h3>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Google Ads</h4>
-                            <p>Spend: $8,450 | ROAS: 4.2x</p>
-                        </div>
-                        <span style="color: #10b981; font-weight: bold;">Active</span>
-                    </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>LinkedIn Campaigns</h4>
-                            <p>Spend: $3,200 | ROAS: 6.8x</p>
-                        </div>
-                        <span style="color: #10b981; font-weight: bold;">Active</span>
-                    </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Content Marketing</h4>
-                            <p>Organic reach: 45K | Engagement: 12.3%</p>
-                        </div>
-                        <span style="color: #10b981; font-weight: bold;">Growing</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Analytics Tab -->
-        <div id="analytics" class="tab-content">
-            <div class="metrics-grid">
-                <div class="metric-card traffic">
-                    <div class="live-indicator"></div>
-                    <div class="metric-title">Page Views (Today)</div>
-                    <div class="metric-value" style="color: #ec4899;">23,847</div>
-                    <div class="metric-change positive">↗ +19.2% from yesterday</div>
-                </div>
-
-                <div class="metric-card engagement">
-                    <div class="live-indicator"></div>
-                    <div class="metric-title">Bounce Rate</div>
-                    <div class="metric-value" style="color: #14b8a6;">23.4%</div>
-                    <div class="metric-change positive">↘ -5.7% improvement</div>
-                </div>
-
-                <div class="metric-card users">
-                    <div class="live-indicator"></div>
-                    <div class="metric-title">Session Duration</div>
-                    <div class="metric-value" style="color: #3b82f6;">4m 32s</div>
-                    <div class="metric-change positive">↗ +12.8% increase</div>
-                </div>
-
-                <div class="metric-card conversion">
-                    <div class="live-indicator"></div>
-                    <div class="metric-title">Goal Completion Rate</div>
-                    <div class="metric-value" style="color: #f59e0b;">18.7%</div>
-                    <div class="metric-change positive">↗ +4.3% this week</div>
-                </div>
-            </div>
-
-            <div class="sections-grid">
-                <div class="section-card">
-                    <h3 class="section-title">🌍 Geographic Performance</h3>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>United States</h4>
-                            <p>67.3% of traffic | $32,450 revenue</p>
-                        </div>
-                        <span style="color: #10b981; font-weight: bold;">Primary</span>
-                    </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Canada</h4>
-                            <p>12.8% of traffic | $8,920 revenue</p>
-                        </div>
-                        <span style="color: #3b82f6; font-weight: bold;">Growing</span>
-                    </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>United Kingdom</h4>
-                            <p>8.4% of traffic | $5,670 revenue</p>
-                        </div>
-                        <span style="color: #6b7280; font-weight: bold;">Stable</span>
-                    </div>
-                </div>
-
-                <div class="section-card">
-                    <h3 class="section-title">📱 Device & Browser Analytics</h3>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Desktop Users</h4>
-                            <p>58.2% | Avg session: 6m 12s</p>
-                        </div>
-                        <button class="btn">Optimize</button>
-                    </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Mobile Users</h4>
-                            <p>37.8% | Avg session: 3m 45s</p>
-                        </div>
-                        <button class="btn">Optimize</button>
-                    </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Tablet Users</h4>
-                            <p>4.0% | Avg session: 4m 28s</p>
-                        </div>
-                        <button class="btn secondary">Monitor</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Users Tab -->
-        <div id="users" class="tab-content">
-            <div class="metrics-grid">
-                <div class="metric-card users">
-                    <div class="live-indicator"></div>
-                    <div class="metric-title">Total Registered Users</div>
-                    <div class="metric-value" style="color: #3b82f6;">12,847</div>
-                    <div class="metric-change positive">↗ +234 this week</div>
-                </div>
-
-                <div class="metric-card engagement">
-                    <div class="live-indicator"></div>
-                    <div class="metric-title">Premium Subscribers</div>
-                    <div class="metric-value" style="color: #14b8a6;">3,456</div>
-                    <div class="metric-change positive">↗ +89 this month</div>
-                </div>
-
-                <div class="metric-card conversion">
-                    <div class="live-indicator"></div>
-                    <div class="metric-title">Free Trial Users</div>
-                    <div class="metric-value" style="color: #f59e0b;">1,234</div>
-                    <div class="metric-change neutral">45 expire today</div>
-                </div>
-
-                <div class="metric-card documents">
-                    <div class="live-indicator"></div>
-                    <div class="metric-title">Enterprise Accounts</div>
-                    <div class="metric-value" style="color: #8b5cf6;">89</div>
-                    <div class="metric-change positive">↗ +12 this quarter</div>
-                </div>
-            </div>
-
-            <div class="sections-grid">
-                <div class="section-card">
-                    <h3 class="section-title">👥 User Management</h3>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Recent Registrations</h4>
-                            <p>34 new users in last 24 hours</p>
-                        </div>
-                        <button class="btn" onclick="viewUsers('recent')">View All</button>
-                    </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Support Tickets</h4>
-                            <p>12 open tickets | Avg response: 2.3h</p>
-                        </div>
-                        <button class="btn" onclick="viewSupport()">Manage</button>
-                    </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>User Feedback</h4>
-                            <p>4.8/5 average rating | 89 reviews</p>
-                        </div>
-                        <button class="btn secondary" onclick="viewFeedback()">View Reviews</button>
-                    </div>
-                </div>
-
-                <div class="section-card">
-                    <h3 class="section-title">📊 User Segmentation</h3>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Small Business (1-10 employees)</h4>
-                            <p>67.3% of users | $23,450 MRR</p>
-                        </div>
-                        <span style="color: #10b981; font-weight: bold;">Primary</span>
-                    </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Mid-Market (11-500 employees)</h4>
-                            <p>23.8% of users | $18,920 MRR</p>
-                        </div>
-                        <span style="color: #3b82f6; font-weight: bold;">Growing</span>
-                    </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Enterprise (500+ employees)</h4>
-                            <p>8.9% of users | $15,670 MRR</p>
-                        </div>
-                        <span style="color: #f59e0b; font-weight: bold;">High Value</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- System Tab -->
-        <div id="system" class="tab-content">
-            <div class="alert success">
-                <strong>System Status:</strong> All services operational. Last update: 2 minutes ago.
-            </div>
-
-            <div class="status-grid">
-                <div class="status-item">
-                    <div style="display: flex; align-items: center;">
-                        <div class="status-indicator operational"></div>
-                        <span>Main Website (signova.ai)</span>
-                    </div>
-                    <span style="color: #10b981; font-weight: bold;">Operational</span>
-                </div>
-
-                <div class="status-item">
-                    <div style="display: flex; align-items: center;">
-                        <div class="status-indicator operational"></div>
-                        <span>User Portal (portal.signova.ai)</span>
-                    </div>
-                    <span style="color: #10b981; font-weight: bold;">Operational</span>
-                </div>
-
-                <div class="status-item">
-                    <div style="display: flex; align-items: center;">
-                        <div class="status-indicator operational"></div>
-                        <span>Admin Portal (admin.signova.ai)</span>
-                    </div>
-                    <span style="color: #10b981; font-weight: bold;">Operational</span>
-                </div>
-
-                <div class="status-item">
-                    <div style="display: flex; align-items: center;">
-                        <div class="status-indicator operational"></div>
-                        <span>AI Marketing Platform (45.55.212.255)</span>
-                    </div>
-                    <span style="color: #10b981; font-weight: bold;">Operational</span>
-                </div>
-
-                <div class="status-item">
-                    <div style="display: flex; align-items: center;">
-                        <div class="status-indicator operational"></div>
-                        <span>Payment Processing (Stripe)</span>
-                    </div>
-                    <span style="color: #10b981; font-weight: bold;">Operational</span>
-                </div>
-
-                <div class="status-item">
-                    <div style="display: flex; align-items: center;">
-                        <div class="status-indicator operational"></div>
-                        <span>Email Services</span>
-                    </div>
-                    <span style="color: #10b981; font-weight: bold;">Operational</span>
-                </div>
-
-                <div class="status-item">
-                    <div style="display: flex; align-items: center;">
-                        <div class="status-indicator operational"></div>
-                        <span>Document Storage</span>
-                    </div>
-                    <span style="color: #10b981; font-weight: bold;">Operational</span>
-                </div>
-
-                <div class="status-item">
-                    <div style="display: flex; align-items: center;">
-                        <div class="status-indicator operational"></div>
-                        <span>SSL Certificates</span>
-                    </div>
-                    <span style="color: #10b981; font-weight: bold;">Operational</span>
-                </div>
-            </div>
-
-            <div class="sections-grid">
-                <div class="section-card">
-                    <h3 class="section-title">🖥️ Server Performance</h3>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>CPU Usage</h4>
-                            <p>23.4% average load</p>
-                        </div>
-                        <span style="color: #10b981; font-weight: bold;">Optimal</span>
-                    </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Memory Usage</h4>
-                            <p>67.8% of 16GB used</p>
-                        </div>
-                        <span style="color: #f59e0b; font-weight: bold;">Normal</span>
-                    </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Disk Space</h4>
-                            <p>234GB of 1TB used</p>
-                        </div>
-                        <span style="color: #10b981; font-weight: bold;">Healthy</span>
-                    </div>
-                </div>
-
-                <div class="section-card">
-                    <h3 class="section-title">🔒 Security & Compliance</h3>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>SSL Certificate Status</h4>
-                            <p>Valid until November 2, 2025</p>
-                        </div>
-                        <button class="btn success">Secure</button>
-                    </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Security Scan</h4>
-                            <p>Last scan: 6 hours ago | No issues</p>
-                        </div>
-                        <button class="btn success">Clean</button>
-                    </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Backup Status</h4>
-                            <p>Last backup: 2 hours ago | Success</p>
-                        </div>
-                        <button class="btn success">Current</button>
+                    <div id="ssl-info">
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
                     </div>
                 </div>
             </div>
@@ -1000,89 +587,176 @@
         <!-- Financial Tab -->
         <div id="financial" class="tab-content">
             <div class="metrics-grid">
-                <div class="metric-card revenue">
-                    <div class="live-indicator"></div>
-                    <div class="metric-title">Total Revenue (YTD)</div>
-                    <div class="metric-value" style="color: #10b981;">$487,923</div>
-                    <div class="metric-change positive">↗ +156% YoY growth</div>
+                <div class="metric-card">
+                    <div class="live-indicator connecting" id="stripe-revenue-indicator"></div>
+                    <div class="metric-title">Total Revenue (All Time)</div>
+                    <div class="metric-value" style="color: #10b981;" id="total-revenue">Loading...</div>
+                    <div class="metric-change" id="total-revenue-change">Connecting to Stripe...</div>
                 </div>
 
-                <div class="metric-card marketing">
-                    <div class="live-indicator"></div>
-                    <div class="metric-title">Gross Profit Margin</div>
-                    <div class="metric-value" style="color: #ef4444;">78.4%</div>
-                    <div class="metric-change positive">↗ +3.2% improvement</div>
+                <div class="metric-card">
+                    <div class="live-indicator connecting" id="stripe-customers-indicator"></div>
+                    <div class="metric-title">Total Customers</div>
+                    <div class="metric-value" style="color: #3b82f6;" id="total-customers">Loading...</div>
+                    <div class="metric-change" id="customers-change">Fetching customer data...</div>
                 </div>
 
-                <div class="metric-card campaigns">
-                    <div class="live-indicator"></div>
-                    <div class="metric-title">Operating Expenses</div>
-                    <div class="metric-value" style="color: #06b6d4;">$23,450</div>
-                    <div class="metric-change neutral">Monthly average</div>
+                <div class="metric-card">
+                    <div class="live-indicator connecting" id="stripe-transactions-indicator"></div>
+                    <div class="metric-title">Transactions (Today)</div>
+                    <div class="metric-value" style="color: #8b5cf6;" id="daily-transactions">Loading...</div>
+                    <div class="metric-change" id="transactions-change">Processing payments...</div>
                 </div>
 
-                <div class="metric-card leads">
-                    <div class="live-indicator"></div>
-                    <div class="metric-title">Cash Flow</div>
-                    <div class="metric-value" style="color: #84cc16;">$34,567</div>
-                    <div class="metric-change positive">↗ +28.9% this month</div>
+                <div class="metric-card">
+                    <div class="live-indicator connecting" id="stripe-subscriptions-indicator"></div>
+                    <div class="metric-title">Active Subscriptions</div>
+                    <div class="metric-value" style="color: #f59e0b;" id="active-subscriptions">Loading...</div>
+                    <div class="metric-change" id="subscriptions-change">Checking subscriptions...</div>
                 </div>
             </div>
 
             <div class="sections-grid">
                 <div class="section-card">
-                    <h3 class="section-title">💳 Payment Analytics</h3>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Successful Payments</h4>
-                            <p>98.7% success rate | $45,892 processed</p>
-                        </div>
-                        <span style="color: #10b981; font-weight: bold;">Excellent</span>
+                    <h3 class="section-title">💳 Stripe Integration</h3>
+                    <div class="api-status">
+                        <div class="status-dot connecting" id="stripe-api-status"></div>
+                        <span>Stripe API Connection</span>
                     </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Failed Payments</h4>
-                            <p>1.3% failure rate | $623 failed</p>
-                        </div>
-                        <span style="color: #f59e0b; font-weight: bold;">Monitor</span>
-                    </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Refunds & Chargebacks</h4>
-                            <p>0.8% of total revenue | $389 this month</p>
-                        </div>
-                        <span style="color: #10b981; font-weight: bold;">Low</span>
+                    <div id="stripe-details">
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
                     </div>
                 </div>
 
                 <div class="section-card">
-                    <h3 class="section-title">📊 Revenue Breakdown</h3>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Starter Plan ($9/month)</h4>
-                            <p>1,234 subscribers | $11,106 MRR</p>
-                        </div>
-                        <span style="color: #3b82f6; font-weight: bold;">23%</span>
+                    <h3 class="section-title">📈 Revenue Analytics</h3>
+                    <div class="chart-container">
+                        <span>Loading revenue chart...</span>
                     </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Professional Plan ($29/month)</h4>
-                            <p>892 subscribers | $25,868 MRR</p>
-                        </div>
-                        <span style="color: #10b981; font-weight: bold;">54%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="analytics" class="tab-content">
+            <div class="sections-grid">
+                <div class="section-card">
+                    <h3 class="section-title">🌐 Cloudflare Analytics</h3>
+                    <div class="api-status">
+                        <div class="status-dot connecting" id="cloudflare-status"></div>
+                        <span>Cloudflare API Connection</span>
                     </div>
-                    
-                    <div class="section-item">
-                        <div class="item-info">
-                            <h4>Enterprise Plan ($199/month)</h4>
-                            <p>56 subscribers | $11,144 MRR</p>
+                    <div id="cloudflare-analytics">
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h3 class="section-title">📊 GitHub Analytics</h3>
+                    <div class="api-status">
+                        <div class="status-dot connecting" id="github-status"></div>
+                        <span>GitHub API Connection</span>
+                    </div>
+                    <div id="github-analytics">
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users Tab -->
+        <div id="users" class="tab-content">
+            <div class="sections-grid">
+                <div class="section-card">
+                    <h3 class="section-title">👥 User Management</h3>
+                    <div class="api-status">
+                        <div class="status-dot connecting" id="users-api-status"></div>
+                        <span>User Database Connection</span>
+                    </div>
+                    <div id="users-data">
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h3 class="section-title">📈 User Analytics</h3>
+                    <div class="chart-container">
+                        <span>Loading user analytics...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Tab -->
+        <div id="security" class="tab-content">
+            <div class="sections-grid">
+                <div class="section-card">
+                    <h3 class="section-title">🔒 Security Monitoring</h3>
+                    <div class="api-status">
+                        <div class="status-dot connecting" id="security-status"></div>
+                        <span>Security Systems</span>
+                    </div>
+                    <div id="security-data">
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h3 class="section-title">🛡️ SSL Certificates</h3>
+                    <div id="ssl-certificates">
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- APIs Tab -->
+        <div id="apis" class="tab-content">
+            <div class="sections-grid">
+                <div class="section-card">
+                    <h3 class="section-title">🔌 API Connections</h3>
+                    <div id="api-connections">
+                        <div class="api-status">
+                            <div class="status-dot connecting" id="do-api-status"></div>
+                            <span>DigitalOcean API</span>
+                            <span style="margin-left: auto; color: #f59e0b;">Connecting...</span>
                         </div>
-                        <span style="color: #f59e0b; font-weight: bold;">23%</span>
+                        <div class="api-status">
+                            <div class="status-dot connecting" id="stripe-connection-status"></div>
+                            <span>Stripe API</span>
+                            <span style="margin-left: auto; color: #f59e0b;">Connecting...</span>
+                        </div>
+                        <div class="api-status">
+                            <div class="status-dot connecting" id="cloudflare-connection-status"></div>
+                            <span>Cloudflare API</span>
+                            <span style="margin-left: auto; color: #f59e0b;">Connecting...</span>
+                        </div>
+                        <div class="api-status">
+                            <div class="status-dot connecting" id="github-connection-status"></div>
+                            <span>GitHub API</span>
+                            <span style="margin-left: auto; color: #f59e0b;">Connecting...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h3 class="section-title">📊 API Performance</h3>
+                    <div id="api-performance">
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
                     </div>
                 </div>
             </div>
@@ -1090,164 +764,414 @@
     </div>
 
     <script>
-        // Check authentication on page load
-        window.onload = function() {
-            if (sessionStorage.getItem('adminAuthenticated') !== 'true') {
-                window.location.href = 'login.html';
-                return;
-            }
-            
-            // Display admin email if available
-            const adminEmail = sessionStorage.getItem('adminEmail');
-            if (adminEmail) {
-                document.getElementById('adminEmail').textContent = adminEmail;
-            }
-            
-            // Initialize real-time data updates
-            initializeRealTimeUpdates();
+        // Global configuration
+        const CONFIG = {
+            DROPLET_IPS: {
+                'ai-marketing-platform-backend': '45.55.212.255',
+                'signova-staging': '157.245.93.114',
+                'signova-mobile-framework': '104.131.94.209',
+                'signova-admin-executive': '157.245.243.236',
+                'signova-user-portal': '157.230.85.71',
+                'signova-portal-backend': '24.144.127.169'
+            },
+            REFRESH_INTERVALS: {
+                FAST: 30000,    // 30 seconds
+                MEDIUM: 60000,  // 1 minute
+                SLOW: 300000    // 5 minutes
+            },
+            RETRY_ATTEMPTS: 3,
+            RETRY_DELAY: 2000
         };
 
+        // API Connection Manager
+        class APIManager {
+            constructor() {
+                this.connections = new Map();
+                this.retryAttempts = new Map();
+                this.lastUpdate = new Map();
+            }
+
+            async makeRequest(endpoint, options = {}) {
+                const key = endpoint;
+                const maxRetries = CONFIG.RETRY_ATTEMPTS;
+                
+                for (let attempt = 1; attempt <= maxRetries; attempt++) {
+                    try {
+                        const response = await fetch(endpoint, {
+                            ...options,
+                            timeout: 10000,
+                            headers: {
+                                'Content-Type': 'application/json',
+                                ...options.headers
+                            }
+                        });
+
+                        if (response.ok) {
+                            this.updateConnectionStatus(key, 'connected');
+                            this.retryAttempts.delete(key);
+                            return await response.json();
+                        } else {
+                            throw new Error(`HTTP ${response.status}`);
+                        }
+                    } catch (error) {
+                        console.warn(`API request failed (attempt ${attempt}/${maxRetries}):`, error);
+                        
+                        if (attempt === maxRetries) {
+                            this.updateConnectionStatus(key, 'error');
+                            throw error;
+                        }
+                        
+                        await this.delay(CONFIG.RETRY_DELAY * attempt);
+                    }
+                }
+            }
+
+            updateConnectionStatus(key, status) {
+                this.connections.set(key, status);
+                this.lastUpdate.set(key, Date.now());
+                this.updateUIStatus(key, status);
+            }
+
+            updateUIStatus(key, status) {
+                const indicators = document.querySelectorAll(`[id*="${key}"]`);
+                indicators.forEach(indicator => {
+                    indicator.className = `status-dot ${status === 'connected' ? '' : status}`;
+                });
+            }
+
+            delay(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+        }
+
+        // Initialize API Manager
+        const apiManager = new APIManager();
+
+        // Data fetching functions
+        async function fetchDropletData() {
+            try {
+                const dropletData = {};
+                
+                for (const [name, ip] of Object.entries(CONFIG.DROPLET_IPS)) {
+                    try {
+                        // Check droplet health
+                        const healthCheck = await fetch(`http://${ip}/health`, {
+                            method: 'GET',
+                            timeout: 5000
+                        });
+                        
+                        dropletData[name] = {
+                            ip: ip,
+                            status: healthCheck.ok ? 'operational' : 'degraded',
+                            lastCheck: new Date().toISOString()
+                        };
+                    } catch (error) {
+                        dropletData[name] = {
+                            ip: ip,
+                            status: 'error',
+                            lastCheck: new Date().toISOString(),
+                            error: error.message
+                        };
+                    }
+                }
+                
+                updateDropletUI(dropletData);
+                return dropletData;
+            } catch (error) {
+                console.error('Failed to fetch droplet data:', error);
+                updateDropletUI({});
+            }
+        }
+
+        async function fetchStripeData() {
+            try {
+                // In a real implementation, this would connect to your Stripe webhook endpoint
+                // or a backend API that securely handles Stripe data
+                const stripeEndpoint = `http://${CONFIG.DROPLET_IPS['ai-marketing-platform-backend']}/api/stripe/dashboard`;
+                
+                const data = await apiManager.makeRequest(stripeEndpoint);
+                updateStripeUI(data);
+                return data;
+            } catch (error) {
+                console.error('Failed to fetch Stripe data:', error);
+                updateStripeUI(null);
+            }
+        }
+
+        async function fetchCloudflareData() {
+            try {
+                const cloudflareEndpoint = `http://${CONFIG.DROPLET_IPS['ai-marketing-platform-backend']}/api/cloudflare/analytics`;
+                
+                const data = await apiManager.makeRequest(cloudflareEndpoint);
+                updateCloudflareUI(data);
+                return data;
+            } catch (error) {
+                console.error('Failed to fetch Cloudflare data:', error);
+                updateCloudflareUI(null);
+            }
+        }
+
+        async function fetchGitHubData() {
+            try {
+                const githubEndpoint = `http://${CONFIG.DROPLET_IPS['ai-marketing-platform-backend']}/api/github/stats`;
+                
+                const data = await apiManager.makeRequest(githubEndpoint);
+                updateGitHubUI(data);
+                return data;
+            } catch (error) {
+                console.error('Failed to fetch GitHub data:', error);
+                updateGitHubUI(null);
+            }
+        }
+
+        async function fetchUserData() {
+            try {
+                const userEndpoint = `http://${CONFIG.DROPLET_IPS['signova-user-portal']}/api/users/stats`;
+                
+                const data = await apiManager.makeRequest(userEndpoint);
+                updateUserUI(data);
+                return data;
+            } catch (error) {
+                console.error('Failed to fetch user data:', error);
+                updateUserUI(null);
+            }
+        }
+
+        // UI Update functions
+        function updateDropletUI(data) {
+            const container = document.getElementById('droplets-list');
+            if (!data || Object.keys(data).length === 0) {
+                container.innerHTML = '<div class="alert error">Unable to connect to DigitalOcean droplets</div>';
+                return;
+            }
+
+            let html = '<table class="data-table"><thead><tr><th>Droplet</th><th>IP Address</th><th>Status</th><th>Last Check</th></tr></thead><tbody>';
+            
+            for (const [name, info] of Object.entries(data)) {
+                const statusClass = info.status === 'operational' ? 'success' : info.status === 'degraded' ? 'warning' : 'error';
+                html += `
+                    <tr>
+                        <td><strong>${name}</strong></td>
+                        <td>${info.ip}</td>
+                        <td><span class="btn ${statusClass}">${info.status}</span></td>
+                        <td>${new Date(info.lastCheck).toLocaleTimeString()}</td>
+                    </tr>
+                `;
+            }
+            
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        function updateStripeUI(data) {
+            if (!data) {
+                document.getElementById('total-revenue').textContent = 'Connection Failed';
+                document.getElementById('total-customers').textContent = 'Connection Failed';
+                document.getElementById('daily-transactions').textContent = 'Connection Failed';
+                document.getElementById('active-subscriptions').textContent = 'Connection Failed';
+                return;
+            }
+
+            document.getElementById('total-revenue').textContent = `$${data.totalRevenue?.toLocaleString() || '0'}`;
+            document.getElementById('total-customers').textContent = data.totalCustomers?.toLocaleString() || '0';
+            document.getElementById('daily-transactions').textContent = data.dailyTransactions?.toLocaleString() || '0';
+            document.getElementById('active-subscriptions').textContent = data.activeSubscriptions?.toLocaleString() || '0';
+
+            // Update change indicators
+            document.getElementById('total-revenue-change').textContent = data.revenueChange || 'No data';
+            document.getElementById('customers-change').textContent = data.customersChange || 'No data';
+            document.getElementById('transactions-change').textContent = data.transactionsChange || 'No data';
+            document.getElementById('subscriptions-change').textContent = data.subscriptionsChange || 'No data';
+        }
+
+        function updateCloudflareUI(data) {
+            const container = document.getElementById('cloudflare-analytics');
+            if (!data) {
+                container.innerHTML = '<div class="alert error">Unable to connect to Cloudflare API</div>';
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="api-status">
+                    <div class="status-dot"></div>
+                    <span>Requests Today: ${data.requestsToday?.toLocaleString() || 'N/A'}</span>
+                </div>
+                <div class="api-status">
+                    <div class="status-dot"></div>
+                    <span>Bandwidth Used: ${data.bandwidthUsed || 'N/A'}</span>
+                </div>
+                <div class="api-status">
+                    <div class="status-dot"></div>
+                    <span>Cache Hit Rate: ${data.cacheHitRate || 'N/A'}</span>
+                </div>
+            `;
+        }
+
+        function updateGitHubUI(data) {
+            const container = document.getElementById('github-analytics');
+            if (!data) {
+                container.innerHTML = '<div class="alert error">Unable to connect to GitHub API</div>';
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="api-status">
+                    <div class="status-dot"></div>
+                    <span>Repositories: ${data.repositories || 'N/A'}</span>
+                </div>
+                <div class="api-status">
+                    <div class="status-dot"></div>
+                    <span>Commits Today: ${data.commitsToday || 'N/A'}</span>
+                </div>
+                <div class="api-status">
+                    <div class="status-dot"></div>
+                    <span>Deployments: ${data.deployments || 'N/A'}</span>
+                </div>
+            `;
+        }
+
+        function updateUserUI(data) {
+            const container = document.getElementById('users-data');
+            if (!data) {
+                container.innerHTML = '<div class="alert error">Unable to connect to user database</div>';
+                return;
+            }
+
+            document.getElementById('active-users').textContent = data.activeUsers?.toLocaleString() || '0';
+            document.getElementById('users-change').textContent = data.usersChange || 'No data';
+        }
+
+        // Tab management
         function showTab(tabName) {
             // Hide all tab contents
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => content.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
             
             // Remove active class from all tabs
-            const tabs = document.querySelectorAll('.nav-tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
             
             // Show selected tab content
             document.getElementById(tabName).classList.add('active');
             
             // Add active class to clicked tab
             event.target.classList.add('active');
+            
+            // Load data for the selected tab
+            loadTabData(tabName);
+        }
+
+        function loadTabData(tabName) {
+            switch(tabName) {
+                case 'overview':
+                    fetchAllOverviewData();
+                    break;
+                case 'infrastructure':
+                    fetchDropletData();
+                    break;
+                case 'financial':
+                    fetchStripeData();
+                    break;
+                case 'analytics':
+                    fetchCloudflareData();
+                    fetchGitHubData();
+                    break;
+                case 'users':
+                    fetchUserData();
+                    break;
+                case 'security':
+                    fetchSecurityData();
+                    break;
+                case 'apis':
+                    checkAllAPIConnections();
+                    break;
+            }
+        }
+
+        async function fetchAllOverviewData() {
+            // Fetch all overview metrics
+            await Promise.allSettled([
+                fetchStripeData(),
+                fetchUserData(),
+                fetchDropletData(),
+                fetchCloudflareData()
+            ]);
+        }
+
+        async function fetchSecurityData() {
+            try {
+                const securityEndpoint = `http://${CONFIG.DROPLET_IPS['ai-marketing-platform-backend']}/api/security/status`;
+                const data = await apiManager.makeRequest(securityEndpoint);
+                
+                const container = document.getElementById('security-data');
+                container.innerHTML = `
+                    <div class="api-status">
+                        <div class="status-dot"></div>
+                        <span>SSL Status: ${data.sslStatus || 'Checking...'}</span>
+                    </div>
+                    <div class="api-status">
+                        <div class="status-dot"></div>
+                        <span>Firewall: ${data.firewallStatus || 'Checking...'}</span>
+                    </div>
+                    <div class="api-status">
+                        <div class="status-dot"></div>
+                        <span>Last Security Scan: ${data.lastScan || 'Checking...'}</span>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Failed to fetch security data:', error);
+                document.getElementById('security-data').innerHTML = '<div class="alert error">Unable to connect to security systems</div>';
+            }
+        }
+
+        async function checkAllAPIConnections() {
+            const apis = [
+                { name: 'DigitalOcean', endpoint: 'https://api.digitalocean.com/v2/account', id: 'do-api-status' },
+                { name: 'Stripe', endpoint: `http://${CONFIG.DROPLET_IPS['ai-marketing-platform-backend']}/api/stripe/health`, id: 'stripe-connection-status' },
+                { name: 'Cloudflare', endpoint: `http://${CONFIG.DROPLET_IPS['ai-marketing-platform-backend']}/api/cloudflare/health`, id: 'cloudflare-connection-status' },
+                { name: 'GitHub', endpoint: `http://${CONFIG.DROPLET_IPS['ai-marketing-platform-backend']}/api/github/health`, id: 'github-connection-status' }
+            ];
+
+            for (const api of apis) {
+                try {
+                    await apiManager.makeRequest(api.endpoint);
+                    document.getElementById(api.id).className = 'status-dot';
+                    document.getElementById(api.id).nextElementSibling.nextElementSibling.textContent = 'Connected';
+                    document.getElementById(api.id).nextElementSibling.nextElementSibling.style.color = '#10b981';
+                } catch (error) {
+                    document.getElementById(api.id).className = 'status-dot error';
+                    document.getElementById(api.id).nextElementSibling.nextElementSibling.textContent = 'Failed';
+                    document.getElementById(api.id).nextElementSibling.nextElementSibling.style.color = '#ef4444';
+                }
+            }
         }
 
         function logout() {
-            sessionStorage.removeItem('adminAuthenticated');
-            sessionStorage.removeItem('adminEmail');
-            window.location.href = 'login.html';
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = 'login.html';
+            }
         }
 
-        function initializeRealTimeUpdates() {
-            // Simulate real-time data updates
-            setInterval(updateMetrics, 30000); // Update every 30 seconds
-            
-            // Initial update
-            updateMetrics();
-        }
-
-        function updateMetrics() {
-            // Simulate real-time metric updates with realistic variations
-            const metrics = {
-                'revenue-value': generateRevenueValue(),
-                'users-value': generateUserValue(),
-                'documents-value': generateDocumentValue(),
-                'conversion-value': generateConversionValue(),
-                'traffic-value': generateTrafficValue(),
-                'engagement-value': generateEngagementValue()
-            };
-
-            Object.keys(metrics).forEach(id => {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.textContent = metrics[id];
-                }
-            });
-
-            // Update timestamps
-            updateLastRefresh();
-        }
-
-        function generateRevenueValue() {
-            const base = 47892;
-            const variation = Math.floor(Math.random() * 1000) - 500;
-            return '$' + (base + variation).toLocaleString();
-        }
-
-        function generateUserValue() {
-            const base = 2847;
-            const variation = Math.floor(Math.random() * 50) - 25;
-            return (base + variation).toLocaleString();
-        }
-
-        function generateDocumentValue() {
-            const base = 1234;
-            const variation = Math.floor(Math.random() * 100) - 50;
-            return (base + variation).toLocaleString();
-        }
-
-        function generateConversionValue() {
-            const base = 24.7;
-            const variation = (Math.random() * 2) - 1;
-            return (base + variation).toFixed(1) + '%';
-        }
-
-        function generateTrafficValue() {
-            const base = 8945;
-            const variation = Math.floor(Math.random() * 200) - 100;
-            return (base + variation).toLocaleString();
-        }
-
-        function generateEngagementValue() {
-            const base = 87.3;
-            const variation = (Math.random() * 4) - 2;
-            return (base + variation).toFixed(1) + '%';
-        }
-
-        function updateLastRefresh() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString();
-            
-            // Update any "last updated" indicators
-            const indicators = document.querySelectorAll('.live-indicator');
-            indicators.forEach(indicator => {
-                indicator.title = `Last updated: ${timeString}`;
-            });
-        }
-
-        // Campaign and analytics functions
-        function viewCampaign(campaignId) {
-            alert(`Viewing detailed analytics for campaign: ${campaignId}`);
-        }
-
-        function viewForecast() {
-            alert('Opening AI revenue forecasting model...');
-        }
-
-        function viewLeadScoring() {
-            alert('Opening lead scoring analytics...');
-        }
-
-        function viewOptimizations() {
-            alert('Displaying optimization recommendations...');
-        }
-
-        function viewUsers(type) {
-            alert(`Viewing ${type} users...`);
-        }
-
-        function viewSupport() {
-            alert('Opening support ticket management...');
-        }
-
-        function viewFeedback() {
-            alert('Viewing user feedback and reviews...');
-        }
-
-        // Initialize tooltips and interactive elements
+        // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
-            // Add hover effects and tooltips
-            const metricCards = document.querySelectorAll('.metric-card');
-            metricCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-4px)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(-2px)';
-                });
-            });
+            // Start with overview data
+            fetchAllOverviewData();
+            
+            // Set up refresh intervals
+            setInterval(fetchAllOverviewData, CONFIG.REFRESH_INTERVALS.FAST);
+            setInterval(fetchDropletData, CONFIG.REFRESH_INTERVALS.MEDIUM);
+            setInterval(checkAllAPIConnections, CONFIG.REFRESH_INTERVALS.SLOW);
+            
+            console.log('Signova Admin Dashboard initialized');
+            console.log('Connecting to droplets:', CONFIG.DROPLET_IPS);
+        });
+
+        // Error handling for uncaught promises
+        window.addEventListener('unhandledrejection', function(event) {
+            console.error('Unhandled promise rejection:', event.reason);
+            // Don't prevent the default behavior, just log it
         });
     </script>
 </body>
