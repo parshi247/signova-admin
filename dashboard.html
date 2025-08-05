@@ -478,6 +478,7 @@
         if (validateSession()) {
             // Global configuration for API connections
             const CONFIG = {
+                AI_BACKEND_URL: 'http://45.55.212.255:5000',
                 DROPLET_IPS: {
                     'ai-marketing-platform-backend': '45.55.212.255',
                     'signova-staging': '157.245.93.114',
@@ -487,9 +488,9 @@
                     'signova-portal-backend': '24.144.127.169'
                 },
                 REFRESH_INTERVALS: {
-                    FAST: 30000,    // 30 seconds
-                    MEDIUM: 60000,  // 1 minute
-                    SLOW: 300000    // 5 minutes
+                    FAST: 10000,    // 10 seconds for AI data
+                    MEDIUM: 30000,  // 30 seconds
+                    SLOW: 60000     // 1 minute
                 }
             };
 
@@ -551,11 +552,115 @@
 
             // Initialize real API connections
             async function initializeAPIs() {
-                // Start connecting to all APIs
-                console.log('Initializing secure API connections...');
+                console.log('Connecting to AI Marketing Backend...');
                 
-                // This would connect to real APIs with proper authentication
-                // For now, showing loading states until real connections are established
+                // Load AI agent data
+                await loadAIAgentData();
+                
+                // Set up real-time updates
+                setInterval(loadAIAgentData, CONFIG.REFRESH_INTERVALS.FAST);
+                setInterval(loadPerformanceMetrics, CONFIG.REFRESH_INTERVALS.MEDIUM);
+            }
+
+            // Load AI Agent Data from live backend
+            async function loadAIAgentData() {
+                try {
+                    const response = await fetch(`${CONFIG.AI_BACKEND_URL}/api/ai-agents/status`);
+                    const data = await response.json();
+                    
+                    if (data.status === 'success') {
+                        updateDashboardMetrics(data);
+                        updateIndicators('live');
+                    }
+                } catch (error) {
+                    console.error('Failed to load AI agent data:', error);
+                    updateIndicators('error');
+                }
+            }
+
+            // Load Performance Metrics
+            async function loadPerformanceMetrics() {
+                try {
+                    const response = await fetch(`${CONFIG.AI_BACKEND_URL}/api/ai-agents/performance`);
+                    const data = await response.json();
+                    
+                    if (data.status === 'success') {
+                        updatePerformanceSection(data);
+                    }
+                } catch (error) {
+                    console.error('Failed to load performance metrics:', error);
+                }
+            }
+
+            // Update Dashboard Metrics with real AI data
+            function updateDashboardMetrics(data) {
+                const metrics = data.system_metrics;
+                
+                // Monthly Revenue from AI profits
+                document.getElementById('monthly-revenue').textContent = `$${metrics.total_current_profit.toLocaleString()}`;
+                document.getElementById('revenue-change').textContent = `+${metrics.profit_per_hour.toFixed(0)}/hour`;
+                document.getElementById('revenue-change').className = 'metric-change positive';
+                
+                // Active Users (AI Agents)
+                document.getElementById('active-users').textContent = data.total_agents;
+                document.getElementById('users-change').textContent = 'AI Agents Active';
+                document.getElementById('users-change').className = 'metric-change positive';
+                
+                // Documents Signed (Evolution Cycles)
+                document.getElementById('documents-signed').textContent = metrics.total_evolution_cycles.toLocaleString();
+                document.getElementById('documents-change').textContent = 'Evolution Cycles';
+                document.getElementById('documents-change').className = 'metric-change positive';
+                
+                // Conversion Rate (Average Progress)
+                document.getElementById('conversion-rate').textContent = `${metrics.average_progress.toFixed(1)}%`;
+                document.getElementById('conversion-change').textContent = 'Avg Progress to Target';
+                document.getElementById('conversion-change').className = 'metric-change positive';
+                
+                // Website Traffic (Projected Daily Profit)
+                document.getElementById('website-traffic').textContent = `$${metrics.projected_daily_profit.toLocaleString()}`;
+                document.getElementById('traffic-change').textContent = 'Projected Daily';
+                document.getElementById('traffic-change').className = 'metric-change positive';
+                
+                // System Uptime
+                document.getElementById('system-uptime').textContent = `${metrics.system_uptime_hours.toFixed(1)}h`;
+                document.getElementById('uptime-change').textContent = 'AI System Online';
+                document.getElementById('uptime-change').className = 'metric-change positive';
+            }
+
+            // Update Performance Section
+            function updatePerformanceSection(data) {
+                const metrics = data.performance_metrics;
+                const performanceDiv = document.getElementById('performance-metrics');
+                
+                performanceDiv.innerHTML = `
+                    <div style="margin-bottom: 1rem;">
+                        <strong>Revenue Growth:</strong> ${metrics.revenue_growth.daily_growth_rate}% daily
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <strong>ROI:</strong> ${metrics.efficiency_metrics.return_on_investment}%
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <strong>Algorithm Upgrades:</strong> ${metrics.ai_evolution.algorithm_upgrades}
+                    </div>
+                `;
+            }
+
+            // Update Status Indicators
+            function updateIndicators(status) {
+                const indicators = [
+                    'revenue-indicator', 'users-indicator', 'documents-indicator',
+                    'conversion-indicator', 'traffic-indicator', 'uptime-indicator',
+                    'activity-status', 'performance-status'
+                ];
+                
+                indicators.forEach(id => {
+                    const indicator = document.getElementById(id);
+                    if (indicator) {
+                        indicator.className = status === 'live' ? 'live-indicator' : 
+                                           status === 'error' ? 'live-indicator error-indicator' : 
+                                           'live-indicator connecting-indicator';
+                    }
+                });
             }
 
             // Start the dashboard
