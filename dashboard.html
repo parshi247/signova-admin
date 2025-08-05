@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signova Admin Center - Executive Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4f46e5;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            background: #4f46e5;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .admin-badge {
+            background: #ef4444;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-left: 0.5rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            background: #4f46e5;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .dashboard-title {
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-title p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab.active {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            transform: translateY(-2px);
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .tab.active:hover {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .metric-title {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-change {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .metric-change.positive {
+            color: #10b981;
+        }
+
+        .metric-change.negative {
+            color: #ef4444;
+        }
+
+        .metric-change.neutral {
+            color: #6b7280;
+        }
+
+        .live-indicator {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .connecting-indicator {
+            background: #f59e0b;
+            animation: pulse 1s infinite;
+        }
+
+        .error-indicator {
+            background: #ef4444;
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #333;
+        }
+
+        .api-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: #f9fafb;
+            border-radius: 8px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10b981;
+        }
+
+        .status-dot.connecting {
+            background: #f59e0b;
+            animation: pulse 1s infinite;
+        }
+
+        .status-dot.error {
+            background: #ef4444;
+        }
+
+        .loading-skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 4px;
+            height: 20px;
+            margin: 0.25rem 0;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .alert.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .alert.warning {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+
+        .alert.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header {
+                padding: 1rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sections-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="#" class="logo">
+            <div class="logo-icon">S</div>
+            Signova
+            <span class="admin-badge">ADMIN CENTER</span>
+        </a>
+        <div class="user-info">
+            <div class="user-avatar">A</div>
+            <span id="admin-email">admin@signova.ai</span>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="dashboard-title">
+            <h1>Executive Dashboard</h1>
+            <p>Real-time monitoring and management of your Signova platform infrastructure</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview')">📊 Overview</button>
+            <button class="tab" onclick="showTab('infrastructure')">🖥️ Infrastructure</button>
+            <button class="tab" onclick="showTab('financial')">💰 Financial</button>
+            <button class="tab" onclick="showTab('analytics')">📈 Analytics</button>
+            <button class="tab" onclick="showTab('users')">👥 Users</button>
+            <button class="tab" onclick="showTab('security')">🔒 Security</button>
+            <button class="tab" onclick="showTab('apis')">🔌 API Status</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="live-indicator connecting" id="revenue-indicator"></div>
+                    <div class="metric-title">Monthly Recurring Revenue</div>
+                    <div class="metric-value" style="color: #10b981;" id="mrr-value">Loading...</div>
+                    <div class="metric-change" id="mrr-change">Connecting to Stripe...</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="live-indicator connecting" id="users-indicator"></div>
+                    <div class="metric-title">Active Users (30 days)</div>
+                    <div class="metric-value" style="color: #3b82f6;" id="active-users">Loading...</div>
+                    <div class="metric-change" id="users-change">Connecting to database...</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="live-indicator connecting" id="documents-indicator"></div>
+                    <div class="metric-title">Documents Signed (Today)</div>
+                    <div class="metric-value" style="color: #8b5cf6;" id="documents-signed">Loading...</div>
+                    <div class="metric-change" id="documents-change">Connecting to API...</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="live-indicator connecting" id="conversion-indicator"></div>
+                    <div class="metric-title">Trial to Paid Conversion</div>
+                    <div class="metric-value" style="color: #f59e0b;" id="conversion-rate">Loading...</div>
+                    <div class="metric-change" id="conversion-change">Calculating...</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="live-indicator connecting" id="traffic-indicator"></div>
+                    <div class="metric-title">Website Traffic (Today)</div>
+                    <div class="metric-value" style="color: #ef4444;" id="website-traffic">Loading...</div>
+                    <div class="metric-change" id="traffic-change">Connecting to Cloudflare...</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="live-indicator connecting" id="uptime-indicator"></div>
+                    <div class="metric-title">System Uptime</div>
+                    <div class="metric-value" style="color: #10b981;" id="system-uptime">Loading...</div>
+                    <div class="metric-change" id="uptime-change">Checking all services...</div>
+                </div>
+            </div>
+
+            <div class="sections-grid">
+                <div class="section-card">
+                    <h3 class="section-title">🚀 Real-time Activity</h3>
+                    <div class="api-status">
+                        <div class="status-dot connecting" id="activity-status"></div>
+                        <span>Live Activity Feed</span>
+                    </div>
+                    <div id="activity-feed">
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h3 class="section-title">📊 Performance Metrics</h3>
+                    <div class="api-status">
+                        <div class="status-dot connecting" id="performance-status"></div>
+                        <span>System Performance</span>
+                    </div>
+                    <div id="performance-metrics">
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other tabs would be here with similar structure -->
+    </div>
+
+    <script>
+        // Session validation
+        function validateSession() {
+            const isAuthenticated = sessionStorage.getItem('signova_admin_auth');
+            if (!isAuthenticated) {
+                window.location.href = 'login.html';
+                return false;
+            }
+            return true;
+        }
+
+        // Initialize dashboard only if authenticated
+        if (validateSession()) {
+            // Global configuration for API connections
+            const CONFIG = {
+                DROPLET_IPS: {
+                    'ai-marketing-platform-backend': '45.55.212.255',
+                    'signova-staging': '157.245.93.114',
+                    'signova-mobile-framework': '104.131.94.209',
+                    'signova-admin-executive': '157.245.243.236',
+                    'signova-user-portal': '157.230.85.71',
+                    'signova-portal-backend': '24.144.127.169'
+                },
+                REFRESH_INTERVALS: {
+                    FAST: 30000,    // 30 seconds
+                    MEDIUM: 60000,  // 1 minute
+                    SLOW: 300000    // 5 minutes
+                }
+            };
+
+            // API Manager for robust connections
+            class APIManager {
+                constructor() {
+                    this.connections = new Map();
+                    this.retryAttempts = new Map();
+                }
+
+                async makeRequest(endpoint, options = {}) {
+                    try {
+                        const response = await fetch(endpoint, {
+                            ...options,
+                            timeout: 10000,
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${sessionStorage.getItem('signova_admin_token')}`,
+                                ...options.headers
+                            }
+                        });
+
+                        if (response.ok) {
+                            return await response.json();
+                        } else {
+                            throw new Error(`HTTP ${response.status}`);
+                        }
+                    } catch (error) {
+                        console.error('API request failed:', error);
+                        throw error;
+                    }
+                }
+            }
+
+            const apiManager = new APIManager();
+
+            // Tab management
+            function showTab(tabName) {
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                document.querySelectorAll('.tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                
+                document.getElementById(tabName).classList.add('active');
+                event.target.classList.add('active');
+            }
+
+            // Logout function
+            function logout() {
+                if (confirm('Are you sure you want to logout?')) {
+                    sessionStorage.clear();
+                    localStorage.clear();
+                    window.location.href = 'login.html';
+                }
+            }
+
+            // Initialize real API connections
+            async function initializeAPIs() {
+                // Start connecting to all APIs
+                console.log('Initializing secure API connections...');
+                
+                // This would connect to real APIs with proper authentication
+                // For now, showing loading states until real connections are established
+            }
+
+            // Start the dashboard
+            initializeAPIs();
+        }
+    </script>
+</body>
+</html>
+

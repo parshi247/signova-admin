@@ -3,1176 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signova Admin Center - Executive Dashboard</title>
+    <title>Signova Admin Center - Secure Access</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            color: white;
         }
 
-        .header {
-            background: rgba(255, 255, 255, 0.95);
+        .security-notice {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
         }
 
         .logo {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: bold;
-            color: #4f46e5;
-            text-decoration: none;
+            margin-bottom: 2rem;
         }
 
         .logo-icon {
             background: #4f46e5;
             color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            font-size: 1.5rem;
         }
 
         .admin-badge {
             background: #ef4444;
             color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            margin-left: 0.5rem;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .user-avatar {
-            background: #4f46e5;
-            color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        .logout-btn {
-            background: #ef4444;
-            color: white;
-            border: none;
             padding: 0.5rem 1rem;
             border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-
-        .logout-btn:hover {
-            background: #dc2626;
-            transform: translateY(-1px);
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .dashboard-title {
-            text-align: center;
-            color: white;
-            margin-bottom: 2rem;
-        }
-
-        .dashboard-title h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .dashboard-title p {
-            opacity: 0.9;
-            font-size: 1.1rem;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .tab {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
-            backdrop-filter: blur(10px);
-            position: relative;
-        }
-
-        .tab.active {
-            background: rgba(255, 255, 255, 0.95);
-            color: #333;
-            transform: translateY(-2px);
-        }
-
-        .tab:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-1px);
-        }
-
-        .tab.active:hover {
-            background: rgba(255, 255, 255, 0.95);
-            color: #333;
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ef4444;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .metric-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            position: relative;
-            transition: all 0.2s;
-        }
-
-        .metric-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .metric-title {
             font-size: 0.9rem;
-            color: #6b7280;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .metric-value {
-            font-size: 2rem;
             font-weight: bold;
-            margin-bottom: 0.5rem;
+            margin-left: 1rem;
         }
 
-        .metric-change {
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .metric-change.positive {
-            color: #10b981;
-        }
-
-        .metric-change.negative {
-            color: #ef4444;
-        }
-
-        .metric-change.neutral {
-            color: #6b7280;
-        }
-
-        .live-indicator {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            width: 8px;
-            height: 8px;
-            background: #10b981;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        .connecting-indicator {
-            background: #f59e0b;
-            animation: pulse 1s infinite;
-        }
-
-        .error-indicator {
-            background: #ef4444;
-            animation: pulse 0.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-
-        .sections-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .section-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .section-title {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #333;
-        }
-
-        .api-status {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        h1 {
+            font-size: 1.8rem;
             margin-bottom: 1rem;
-            padding: 0.75rem;
-            background: #f9fafb;
-            border-radius: 8px;
+            color: #fff;
         }
 
-        .status-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #10b981;
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
         }
 
-        .status-dot.connecting {
-            background: #f59e0b;
-            animation: pulse 1s infinite;
+        .security-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
         }
 
-        .status-dot.error {
-            background: #ef4444;
-        }
-
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
-
-        .data-table th,
-        .data-table td {
-            text-align: left;
-            padding: 0.75rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .data-table th {
-            background: #f9fafb;
-            font-weight: 600;
-            color: #374151;
-        }
-
-        .loading-skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-            border-radius: 4px;
-            height: 20px;
-            margin: 0.25rem 0;
-        }
-
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        .alert {
+        .redirect-message {
+            background: rgba(255, 255, 255, 0.2);
             padding: 1rem;
             border-radius: 8px;
-            margin-bottom: 1rem;
+            margin: 1rem 0;
             font-weight: 500;
         }
 
-        .alert.success {
-            background: #d1fae5;
-            color: #065f46;
-            border: 1px solid #a7f3d0;
+        .countdown {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fbbf24;
         }
 
-        .alert.warning {
-            background: #fef3c7;
-            color: #92400e;
-            border: 1px solid #fde68a;
-        }
-
-        .alert.error {
-            background: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fecaca;
-        }
-
-        .btn {
+        .manual-link {
+            display: inline-block;
             background: #4f46e5;
             color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn:hover {
-            background: #4338ca;
-            transform: translateY(-1px);
-        }
-
-        .btn.secondary {
-            background: #6b7280;
-        }
-
-        .btn.secondary:hover {
-            background: #4b5563;
-        }
-
-        .btn.success {
-            background: #10b981;
-        }
-
-        .btn.success:hover {
-            background: #059669;
-        }
-
-        .btn.danger {
-            background: #ef4444;
-        }
-
-        .btn.danger:hover {
-            background: #dc2626;
-        }
-
-        .chart-container {
-            height: 300px;
-            background: #f9fafb;
+            padding: 0.75rem 1.5rem;
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #6b7280;
-            margin: 1rem 0;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: all 0.2s;
         }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            .header {
-                padding: 1rem;
-            }
-            
-            .tabs {
-                flex-direction: column;
-            }
-            
-            .metrics-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .sections-grid {
-                grid-template-columns: 1fr;
-            }
+        .manual-link:hover {
+            background: #4338ca;
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <a href="#" class="logo">
+    <div class="security-notice">
+        <div class="logo">
             <div class="logo-icon">S</div>
             Signova
             <span class="admin-badge">ADMIN CENTER</span>
-        </a>
-        <div class="user-info">
-            <div class="user-avatar">A</div>
-            <span id="admin-email">admin@signova.ai</span>
-            <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
-    </div>
-
-    <div class="container">
-        <div class="dashboard-title">
-            <h1>Executive Dashboard</h1>
-            <p>Real-time monitoring and management of your Signova platform infrastructure</p>
+        
+        <div class="security-icon">🔒</div>
+        
+        <h1>Secure Access Required</h1>
+        
+        <p>This is a protected administrative area. Authentication is required to access sensitive business data and system controls.</p>
+        
+        <div class="redirect-message">
+            <p>Redirecting to secure login page in <span class="countdown" id="countdown">3</span> seconds...</p>
         </div>
-
-        <div class="tabs">
-            <button class="tab active" onclick="showTab('overview')">📊 Overview</button>
-            <button class="tab" onclick="showTab('infrastructure')">🖥️ Infrastructure</button>
-            <button class="tab" onclick="showTab('financial')">💰 Financial</button>
-            <button class="tab" onclick="showTab('analytics')">📈 Analytics</button>
-            <button class="tab" onclick="showTab('users')">👥 Users</button>
-            <button class="tab" onclick="showTab('security')">🔒 Security</button>
-            <button class="tab" onclick="showTab('apis')">🔌 API Status</button>
-        </div>
-
-        <!-- Overview Tab -->
-        <div id="overview" class="tab-content active">
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="live-indicator" id="revenue-indicator"></div>
-                    <div class="metric-title">Monthly Recurring Revenue</div>
-                    <div class="metric-value" style="color: #10b981;" id="mrr-value">Loading...</div>
-                    <div class="metric-change" id="mrr-change">Connecting to Stripe...</div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="live-indicator" id="users-indicator"></div>
-                    <div class="metric-title">Active Users (30 days)</div>
-                    <div class="metric-value" style="color: #3b82f6;" id="active-users">Loading...</div>
-                    <div class="metric-change" id="users-change">Connecting to database...</div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="live-indicator" id="documents-indicator"></div>
-                    <div class="metric-title">Documents Signed (Today)</div>
-                    <div class="metric-value" style="color: #8b5cf6;" id="documents-signed">Loading...</div>
-                    <div class="metric-change" id="documents-change">Connecting to API...</div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="live-indicator" id="conversion-indicator"></div>
-                    <div class="metric-title">Trial to Paid Conversion</div>
-                    <div class="metric-value" style="color: #f59e0b;" id="conversion-rate">Loading...</div>
-                    <div class="metric-change" id="conversion-change">Calculating...</div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="live-indicator" id="traffic-indicator"></div>
-                    <div class="metric-title">Website Traffic (Today)</div>
-                    <div class="metric-value" style="color: #ef4444;" id="website-traffic">Loading...</div>
-                    <div class="metric-change" id="traffic-change">Connecting to Cloudflare...</div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="live-indicator" id="uptime-indicator"></div>
-                    <div class="metric-title">System Uptime</div>
-                    <div class="metric-value" style="color: #10b981;" id="system-uptime">Loading...</div>
-                    <div class="metric-change" id="uptime-change">Checking all services...</div>
-                </div>
-            </div>
-
-            <div class="sections-grid">
-                <div class="section-card">
-                    <h3 class="section-title">🚀 Real-time Activity</h3>
-                    <div class="api-status">
-                        <div class="status-dot connecting" id="activity-status"></div>
-                        <span>Live Activity Feed</span>
-                    </div>
-                    <div id="activity-feed">
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                    </div>
-                </div>
-
-                <div class="section-card">
-                    <h3 class="section-title">📊 Performance Metrics</h3>
-                    <div class="api-status">
-                        <div class="status-dot connecting" id="performance-status"></div>
-                        <span>System Performance</span>
-                    </div>
-                    <div id="performance-metrics">
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Infrastructure Tab -->
-        <div id="infrastructure" class="tab-content">
-            <div class="alert success" id="infrastructure-status">
-                <strong>Infrastructure Status:</strong> Connecting to all droplets...
-            </div>
-
-            <div class="sections-grid">
-                <div class="section-card">
-                    <h3 class="section-title">🖥️ DigitalOcean Droplets</h3>
-                    <div class="api-status">
-                        <div class="status-dot connecting" id="do-status"></div>
-                        <span>DigitalOcean API Connection</span>
-                    </div>
-                    <div id="droplets-list">
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                    </div>
-                </div>
-
-                <div class="section-card">
-                    <h3 class="section-title">🌐 Domain & SSL Status</h3>
-                    <div class="api-status">
-                        <div class="status-dot connecting" id="ssl-status"></div>
-                        <span>SSL Certificate Monitoring</span>
-                    </div>
-                    <div id="ssl-info">
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Financial Tab -->
-        <div id="financial" class="tab-content">
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="live-indicator connecting" id="stripe-revenue-indicator"></div>
-                    <div class="metric-title">Total Revenue (All Time)</div>
-                    <div class="metric-value" style="color: #10b981;" id="total-revenue">Loading...</div>
-                    <div class="metric-change" id="total-revenue-change">Connecting to Stripe...</div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="live-indicator connecting" id="stripe-customers-indicator"></div>
-                    <div class="metric-title">Total Customers</div>
-                    <div class="metric-value" style="color: #3b82f6;" id="total-customers">Loading...</div>
-                    <div class="metric-change" id="customers-change">Fetching customer data...</div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="live-indicator connecting" id="stripe-transactions-indicator"></div>
-                    <div class="metric-title">Transactions (Today)</div>
-                    <div class="metric-value" style="color: #8b5cf6;" id="daily-transactions">Loading...</div>
-                    <div class="metric-change" id="transactions-change">Processing payments...</div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="live-indicator connecting" id="stripe-subscriptions-indicator"></div>
-                    <div class="metric-title">Active Subscriptions</div>
-                    <div class="metric-value" style="color: #f59e0b;" id="active-subscriptions">Loading...</div>
-                    <div class="metric-change" id="subscriptions-change">Checking subscriptions...</div>
-                </div>
-            </div>
-
-            <div class="sections-grid">
-                <div class="section-card">
-                    <h3 class="section-title">💳 Stripe Integration</h3>
-                    <div class="api-status">
-                        <div class="status-dot connecting" id="stripe-api-status"></div>
-                        <span>Stripe API Connection</span>
-                    </div>
-                    <div id="stripe-details">
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                    </div>
-                </div>
-
-                <div class="section-card">
-                    <h3 class="section-title">📈 Revenue Analytics</h3>
-                    <div class="chart-container">
-                        <span>Loading revenue chart...</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Analytics Tab -->
-        <div id="analytics" class="tab-content">
-            <div class="sections-grid">
-                <div class="section-card">
-                    <h3 class="section-title">🌐 Cloudflare Analytics</h3>
-                    <div class="api-status">
-                        <div class="status-dot connecting" id="cloudflare-status"></div>
-                        <span>Cloudflare API Connection</span>
-                    </div>
-                    <div id="cloudflare-analytics">
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                    </div>
-                </div>
-
-                <div class="section-card">
-                    <h3 class="section-title">📊 GitHub Analytics</h3>
-                    <div class="api-status">
-                        <div class="status-dot connecting" id="github-status"></div>
-                        <span>GitHub API Connection</span>
-                    </div>
-                    <div id="github-analytics">
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Users Tab -->
-        <div id="users" class="tab-content">
-            <div class="sections-grid">
-                <div class="section-card">
-                    <h3 class="section-title">👥 User Management</h3>
-                    <div class="api-status">
-                        <div class="status-dot connecting" id="users-api-status"></div>
-                        <span>User Database Connection</span>
-                    </div>
-                    <div id="users-data">
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                    </div>
-                </div>
-
-                <div class="section-card">
-                    <h3 class="section-title">📈 User Analytics</h3>
-                    <div class="chart-container">
-                        <span>Loading user analytics...</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Security Tab -->
-        <div id="security" class="tab-content">
-            <div class="sections-grid">
-                <div class="section-card">
-                    <h3 class="section-title">🔒 Security Monitoring</h3>
-                    <div class="api-status">
-                        <div class="status-dot connecting" id="security-status"></div>
-                        <span>Security Systems</span>
-                    </div>
-                    <div id="security-data">
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                    </div>
-                </div>
-
-                <div class="section-card">
-                    <h3 class="section-title">🛡️ SSL Certificates</h3>
-                    <div id="ssl-certificates">
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- APIs Tab -->
-        <div id="apis" class="tab-content">
-            <div class="sections-grid">
-                <div class="section-card">
-                    <h3 class="section-title">🔌 API Connections</h3>
-                    <div id="api-connections">
-                        <div class="api-status">
-                            <div class="status-dot connecting" id="do-api-status"></div>
-                            <span>DigitalOcean API</span>
-                            <span style="margin-left: auto; color: #f59e0b;">Connecting...</span>
-                        </div>
-                        <div class="api-status">
-                            <div class="status-dot connecting" id="stripe-connection-status"></div>
-                            <span>Stripe API</span>
-                            <span style="margin-left: auto; color: #f59e0b;">Connecting...</span>
-                        </div>
-                        <div class="api-status">
-                            <div class="status-dot connecting" id="cloudflare-connection-status"></div>
-                            <span>Cloudflare API</span>
-                            <span style="margin-left: auto; color: #f59e0b;">Connecting...</span>
-                        </div>
-                        <div class="api-status">
-                            <div class="status-dot connecting" id="github-connection-status"></div>
-                            <span>GitHub API</span>
-                            <span style="margin-left: auto; color: #f59e0b;">Connecting...</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section-card">
-                    <h3 class="section-title">📊 API Performance</h3>
-                    <div id="api-performance">
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                        <div class="loading-skeleton"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
+        <a href="login.html" class="manual-link">Login Now</a>
     </div>
 
     <script>
-        // Global configuration
-        const CONFIG = {
-            DROPLET_IPS: {
-                'ai-marketing-platform-backend': '45.55.212.255',
-                'signova-staging': '157.245.93.114',
-                'signova-mobile-framework': '104.131.94.209',
-                'signova-admin-executive': '157.245.243.236',
-                'signova-user-portal': '157.230.85.71',
-                'signova-portal-backend': '24.144.127.169'
-            },
-            REFRESH_INTERVALS: {
-                FAST: 30000,    // 30 seconds
-                MEDIUM: 60000,  // 1 minute
-                SLOW: 300000    // 5 minutes
-            },
-            RETRY_ATTEMPTS: 3,
-            RETRY_DELAY: 2000
-        };
-
-        // API Connection Manager
-        class APIManager {
-            constructor() {
-                this.connections = new Map();
-                this.retryAttempts = new Map();
-                this.lastUpdate = new Map();
-            }
-
-            async makeRequest(endpoint, options = {}) {
-                const key = endpoint;
-                const maxRetries = CONFIG.RETRY_ATTEMPTS;
-                
-                for (let attempt = 1; attempt <= maxRetries; attempt++) {
-                    try {
-                        const response = await fetch(endpoint, {
-                            ...options,
-                            timeout: 10000,
-                            headers: {
-                                'Content-Type': 'application/json',
-                                ...options.headers
-                            }
-                        });
-
-                        if (response.ok) {
-                            this.updateConnectionStatus(key, 'connected');
-                            this.retryAttempts.delete(key);
-                            return await response.json();
-                        } else {
-                            throw new Error(`HTTP ${response.status}`);
-                        }
-                    } catch (error) {
-                        console.warn(`API request failed (attempt ${attempt}/${maxRetries}):`, error);
-                        
-                        if (attempt === maxRetries) {
-                            this.updateConnectionStatus(key, 'error');
-                            throw error;
-                        }
-                        
-                        await this.delay(CONFIG.RETRY_DELAY * attempt);
-                    }
-                }
-            }
-
-            updateConnectionStatus(key, status) {
-                this.connections.set(key, status);
-                this.lastUpdate.set(key, Date.now());
-                this.updateUIStatus(key, status);
-            }
-
-            updateUIStatus(key, status) {
-                const indicators = document.querySelectorAll(`[id*="${key}"]`);
-                indicators.forEach(indicator => {
-                    indicator.className = `status-dot ${status === 'connected' ? '' : status}`;
-                });
-            }
-
-            delay(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms));
-            }
-        }
-
-        // Initialize API Manager
-        const apiManager = new APIManager();
-
-        // Data fetching functions
-        async function fetchDropletData() {
-            try {
-                const dropletData = {};
-                
-                for (const [name, ip] of Object.entries(CONFIG.DROPLET_IPS)) {
-                    try {
-                        // Check droplet health
-                        const healthCheck = await fetch(`http://${ip}/health`, {
-                            method: 'GET',
-                            timeout: 5000
-                        });
-                        
-                        dropletData[name] = {
-                            ip: ip,
-                            status: healthCheck.ok ? 'operational' : 'degraded',
-                            lastCheck: new Date().toISOString()
-                        };
-                    } catch (error) {
-                        dropletData[name] = {
-                            ip: ip,
-                            status: 'error',
-                            lastCheck: new Date().toISOString(),
-                            error: error.message
-                        };
-                    }
-                }
-                
-                updateDropletUI(dropletData);
-                return dropletData;
-            } catch (error) {
-                console.error('Failed to fetch droplet data:', error);
-                updateDropletUI({});
-            }
-        }
-
-        async function fetchStripeData() {
-            try {
-                // In a real implementation, this would connect to your Stripe webhook endpoint
-                // or a backend API that securely handles Stripe data
-                const stripeEndpoint = `http://${CONFIG.DROPLET_IPS['ai-marketing-platform-backend']}/api/stripe/dashboard`;
-                
-                const data = await apiManager.makeRequest(stripeEndpoint);
-                updateStripeUI(data);
-                return data;
-            } catch (error) {
-                console.error('Failed to fetch Stripe data:', error);
-                updateStripeUI(null);
-            }
-        }
-
-        async function fetchCloudflareData() {
-            try {
-                const cloudflareEndpoint = `http://${CONFIG.DROPLET_IPS['ai-marketing-platform-backend']}/api/cloudflare/analytics`;
-                
-                const data = await apiManager.makeRequest(cloudflareEndpoint);
-                updateCloudflareUI(data);
-                return data;
-            } catch (error) {
-                console.error('Failed to fetch Cloudflare data:', error);
-                updateCloudflareUI(null);
-            }
-        }
-
-        async function fetchGitHubData() {
-            try {
-                const githubEndpoint = `http://${CONFIG.DROPLET_IPS['ai-marketing-platform-backend']}/api/github/stats`;
-                
-                const data = await apiManager.makeRequest(githubEndpoint);
-                updateGitHubUI(data);
-                return data;
-            } catch (error) {
-                console.error('Failed to fetch GitHub data:', error);
-                updateGitHubUI(null);
-            }
-        }
-
-        async function fetchUserData() {
-            try {
-                const userEndpoint = `http://${CONFIG.DROPLET_IPS['signova-user-portal']}/api/users/stats`;
-                
-                const data = await apiManager.makeRequest(userEndpoint);
-                updateUserUI(data);
-                return data;
-            } catch (error) {
-                console.error('Failed to fetch user data:', error);
-                updateUserUI(null);
-            }
-        }
-
-        // UI Update functions
-        function updateDropletUI(data) {
-            const container = document.getElementById('droplets-list');
-            if (!data || Object.keys(data).length === 0) {
-                container.innerHTML = '<div class="alert error">Unable to connect to DigitalOcean droplets</div>';
-                return;
-            }
-
-            let html = '<table class="data-table"><thead><tr><th>Droplet</th><th>IP Address</th><th>Status</th><th>Last Check</th></tr></thead><tbody>';
-            
-            for (const [name, info] of Object.entries(data)) {
-                const statusClass = info.status === 'operational' ? 'success' : info.status === 'degraded' ? 'warning' : 'error';
-                html += `
-                    <tr>
-                        <td><strong>${name}</strong></td>
-                        <td>${info.ip}</td>
-                        <td><span class="btn ${statusClass}">${info.status}</span></td>
-                        <td>${new Date(info.lastCheck).toLocaleTimeString()}</td>
-                    </tr>
-                `;
+        // Security check - ensure no sensitive data is accessible
+        function securityCheck() {
+            // Clear any potential cached data
+            if (typeof(Storage) !== "undefined") {
+                localStorage.clear();
+                sessionStorage.clear();
             }
             
-            html += '</tbody></table>';
-            container.innerHTML = html;
-        }
-
-        function updateStripeUI(data) {
-            if (!data) {
-                document.getElementById('total-revenue').textContent = 'Connection Failed';
-                document.getElementById('total-customers').textContent = 'Connection Failed';
-                document.getElementById('daily-transactions').textContent = 'Connection Failed';
-                document.getElementById('active-subscriptions').textContent = 'Connection Failed';
-                return;
-            }
-
-            document.getElementById('total-revenue').textContent = `$${data.totalRevenue?.toLocaleString() || '0'}`;
-            document.getElementById('total-customers').textContent = data.totalCustomers?.toLocaleString() || '0';
-            document.getElementById('daily-transactions').textContent = data.dailyTransactions?.toLocaleString() || '0';
-            document.getElementById('active-subscriptions').textContent = data.activeSubscriptions?.toLocaleString() || '0';
-
-            // Update change indicators
-            document.getElementById('total-revenue-change').textContent = data.revenueChange || 'No data';
-            document.getElementById('customers-change').textContent = data.customersChange || 'No data';
-            document.getElementById('transactions-change').textContent = data.transactionsChange || 'No data';
-            document.getElementById('subscriptions-change').textContent = data.subscriptionsChange || 'No data';
-        }
-
-        function updateCloudflareUI(data) {
-            const container = document.getElementById('cloudflare-analytics');
-            if (!data) {
-                container.innerHTML = '<div class="alert error">Unable to connect to Cloudflare API</div>';
-                return;
-            }
-
-            container.innerHTML = `
-                <div class="api-status">
-                    <div class="status-dot"></div>
-                    <span>Requests Today: ${data.requestsToday?.toLocaleString() || 'N/A'}</span>
-                </div>
-                <div class="api-status">
-                    <div class="status-dot"></div>
-                    <span>Bandwidth Used: ${data.bandwidthUsed || 'N/A'}</span>
-                </div>
-                <div class="api-status">
-                    <div class="status-dot"></div>
-                    <span>Cache Hit Rate: ${data.cacheHitRate || 'N/A'}</span>
-                </div>
-            `;
-        }
-
-        function updateGitHubUI(data) {
-            const container = document.getElementById('github-analytics');
-            if (!data) {
-                container.innerHTML = '<div class="alert error">Unable to connect to GitHub API</div>';
-                return;
-            }
-
-            container.innerHTML = `
-                <div class="api-status">
-                    <div class="status-dot"></div>
-                    <span>Repositories: ${data.repositories || 'N/A'}</span>
-                </div>
-                <div class="api-status">
-                    <div class="status-dot"></div>
-                    <span>Commits Today: ${data.commitsToday || 'N/A'}</span>
-                </div>
-                <div class="api-status">
-                    <div class="status-dot"></div>
-                    <span>Deployments: ${data.deployments || 'N/A'}</span>
-                </div>
-            `;
-        }
-
-        function updateUserUI(data) {
-            const container = document.getElementById('users-data');
-            if (!data) {
-                container.innerHTML = '<div class="alert error">Unable to connect to user database</div>';
-                return;
-            }
-
-            document.getElementById('active-users').textContent = data.activeUsers?.toLocaleString() || '0';
-            document.getElementById('users-change').textContent = data.usersChange || 'No data';
-        }
-
-        // Tab management
-        function showTab(tabName) {
-            // Hide all tab contents
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
+            // Disable right-click and developer tools in production
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
             });
             
-            // Remove active class from all tabs
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected tab content
-            document.getElementById(tabName).classList.add('active');
-            
-            // Add active class to clicked tab
-            event.target.classList.add('active');
-            
-            // Load data for the selected tab
-            loadTabData(tabName);
-        }
-
-        function loadTabData(tabName) {
-            switch(tabName) {
-                case 'overview':
-                    fetchAllOverviewData();
-                    break;
-                case 'infrastructure':
-                    fetchDropletData();
-                    break;
-                case 'financial':
-                    fetchStripeData();
-                    break;
-                case 'analytics':
-                    fetchCloudflareData();
-                    fetchGitHubData();
-                    break;
-                case 'users':
-                    fetchUserData();
-                    break;
-                case 'security':
-                    fetchSecurityData();
-                    break;
-                case 'apis':
-                    checkAllAPIConnections();
-                    break;
-            }
-        }
-
-        async function fetchAllOverviewData() {
-            // Fetch all overview metrics
-            await Promise.allSettled([
-                fetchStripeData(),
-                fetchUserData(),
-                fetchDropletData(),
-                fetchCloudflareData()
-            ]);
-        }
-
-        async function fetchSecurityData() {
-            try {
-                const securityEndpoint = `http://${CONFIG.DROPLET_IPS['ai-marketing-platform-backend']}/api/security/status`;
-                const data = await apiManager.makeRequest(securityEndpoint);
-                
-                const container = document.getElementById('security-data');
-                container.innerHTML = `
-                    <div class="api-status">
-                        <div class="status-dot"></div>
-                        <span>SSL Status: ${data.sslStatus || 'Checking...'}</span>
-                    </div>
-                    <div class="api-status">
-                        <div class="status-dot"></div>
-                        <span>Firewall: ${data.firewallStatus || 'Checking...'}</span>
-                    </div>
-                    <div class="api-status">
-                        <div class="status-dot"></div>
-                        <span>Last Security Scan: ${data.lastScan || 'Checking...'}</span>
-                    </div>
-                `;
-            } catch (error) {
-                console.error('Failed to fetch security data:', error);
-                document.getElementById('security-data').innerHTML = '<div class="alert error">Unable to connect to security systems</div>';
-            }
-        }
-
-        async function checkAllAPIConnections() {
-            const apis = [
-                { name: 'DigitalOcean', endpoint: 'https://api.digitalocean.com/v2/account', id: 'do-api-status' },
-                { name: 'Stripe', endpoint: `http://${CONFIG.DROPLET_IPS['ai-marketing-platform-backend']}/api/stripe/health`, id: 'stripe-connection-status' },
-                { name: 'Cloudflare', endpoint: `http://${CONFIG.DROPLET_IPS['ai-marketing-platform-backend']}/api/cloudflare/health`, id: 'cloudflare-connection-status' },
-                { name: 'GitHub', endpoint: `http://${CONFIG.DROPLET_IPS['ai-marketing-platform-backend']}/api/github/health`, id: 'github-connection-status' }
-            ];
-
-            for (const api of apis) {
-                try {
-                    await apiManager.makeRequest(api.endpoint);
-                    document.getElementById(api.id).className = 'status-dot';
-                    document.getElementById(api.id).nextElementSibling.nextElementSibling.textContent = 'Connected';
-                    document.getElementById(api.id).nextElementSibling.nextElementSibling.style.color = '#10b981';
-                } catch (error) {
-                    document.getElementById(api.id).className = 'status-dot error';
-                    document.getElementById(api.id).nextElementSibling.nextElementSibling.textContent = 'Failed';
-                    document.getElementById(api.id).nextElementSibling.nextElementSibling.style.color = '#ef4444';
+            document.addEventListener('keydown', function(e) {
+                // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+                if (e.keyCode === 123 || 
+                    (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) ||
+                    (e.ctrlKey && e.keyCode === 85)) {
+                    e.preventDefault();
                 }
-            }
+            });
         }
 
-        function logout() {
-            if (confirm('Are you sure you want to logout?')) {
+        // Countdown and redirect
+        let countdown = 3;
+        const countdownElement = document.getElementById('countdown');
+        
+        const timer = setInterval(function() {
+            countdown--;
+            countdownElement.textContent = countdown;
+            
+            if (countdown <= 0) {
+                clearInterval(timer);
                 window.location.href = 'login.html';
             }
-        }
+        }, 1000);
 
-        // Initialize dashboard
-        document.addEventListener('DOMContentLoaded', function() {
-            // Start with overview data
-            fetchAllOverviewData();
-            
-            // Set up refresh intervals
-            setInterval(fetchAllOverviewData, CONFIG.REFRESH_INTERVALS.FAST);
-            setInterval(fetchDropletData, CONFIG.REFRESH_INTERVALS.MEDIUM);
-            setInterval(checkAllAPIConnections, CONFIG.REFRESH_INTERVALS.SLOW);
-            
-            console.log('Signova Admin Dashboard initialized');
-            console.log('Connecting to droplets:', CONFIG.DROPLET_IPS);
+        // Initialize security measures
+        securityCheck();
+
+        // Prevent back button access to sensitive data
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
         });
 
-        // Error handling for uncaught promises
-        window.addEventListener('unhandledrejection', function(event) {
-            console.error('Unhandled promise rejection:', event.reason);
-            // Don't prevent the default behavior, just log it
-        });
+        // Log access attempt for security monitoring
+        console.log('Admin portal access attempt logged:', new Date().toISOString());
     </script>
 </body>
 </html>

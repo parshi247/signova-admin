@@ -359,7 +359,7 @@
                     
                     // Redirect to dashboard
                     setTimeout(() => {
-                        window.location.href = 'index.html';
+                        window.location.href = 'dashboard.html';
                     }, 1500);
                 } else {
                     // Error
@@ -374,7 +374,7 @@
 
         // Check if already authenticated
         if (sessionStorage.getItem('adminAuthenticated') === 'true') {
-            window.location.href = 'index.html';
+            window.location.href = 'dashboard.html';
         }
     </script>
 </body>
