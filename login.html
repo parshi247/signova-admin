@@ -100,10 +100,9 @@
 
         .form-label {
             display: block;
+            margin-bottom: 0.5rem;
             font-weight: 600;
             color: #374151;
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
         }
 
         .form-input {
@@ -113,7 +112,7 @@
             border-radius: 12px;
             font-size: 1rem;
             transition: all 0.3s;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
         }
 
         .form-input:focus {
@@ -123,76 +122,64 @@
             background: white;
         }
 
-        .form-input::placeholder {
-            color: #9ca3af;
-        }
-
         .login-button {
             width: 100%;
-            background: #4f46e5;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
             color: white;
             border: none;
-            padding: 1rem;
+            padding: 1rem 2rem;
             border-radius: 12px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            margin-bottom: 1.5rem;
+            margin-top: 1rem;
         }
 
-        .login-button:hover {
-            background: #4338ca;
+        .login-button:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
         }
 
-        .login-button:active {
-            transform: translateY(0);
-        }
-
-        .divider {
-            text-align: center;
-            margin: 1.5rem 0;
-            color: #9ca3af;
-            font-size: 0.9rem;
+        .login-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
         }
 
         .admin-features {
-            background: #f8fafc;
-            border-radius: 12px;
+            margin-top: 2rem;
             padding: 1.5rem;
-            margin-top: 1.5rem;
-            text-align: left;
+            background: rgba(79, 70, 229, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(79, 70, 229, 0.1);
         }
 
         .admin-features h4 {
-            color: #1f2937;
-            font-size: 1rem;
-            font-weight: 600;
+            color: #4f46e5;
             margin-bottom: 1rem;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
         }
 
         .feature-list {
             list-style: none;
-            padding: 0;
+            text-align: left;
         }
 
         .feature-list li {
+            padding: 0.5rem 0;
+            color: #6b7280;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: #6b7280;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
         }
 
-        .feature-list li:before {
-            content: "🔒";
-            font-size: 0.8rem;
+        .feature-list li::before {
+            content: "✓";
+            color: #10b981;
+            font-weight: bold;
         }
 
         .security-badge {
@@ -247,6 +234,10 @@
             font-size: 0.9rem;
             margin-top: 0.5rem;
             display: none;
+            background: #fef2f2;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid #fecaca;
         }
 
         .success {
@@ -254,6 +245,10 @@
             font-size: 0.9rem;
             margin-top: 0.5rem;
             display: none;
+            background: #ecfdf5;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid #a7f3d0;
         }
     </style>
 </head>
@@ -322,7 +317,10 @@
     </div>
 
     <script>
-        function handleLogin(event) {
+        // Production Admin Authentication
+        const API_BASE = 'http://localhost:5001'; // Update this to your production API URL
+
+        async function handleLogin(event) {
             event.preventDefault();
             
             const email = document.getElementById('email').value;
@@ -342,20 +340,29 @@
             loginBtn.textContent = 'Authenticating...';
             loadingMsg.style.display = 'block';
 
-            // Simulate authentication (replace with real authentication)
-            setTimeout(() => {
-                // For demo purposes, accept any email/password combination
-                // In production, this would connect to your authentication system
-                
-                if (email && password) {
-                    // Success
+            try {
+                // Real authentication API call
+                const response = await fetch(`${API_BASE}/api/admin/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    // Success - store JWT token
+                    localStorage.setItem('adminToken', data.token);
+                    localStorage.setItem('adminUser', JSON.stringify(data.user));
+                    
                     loadingMsg.style.display = 'none';
                     successMsg.style.display = 'block';
                     loginBtn.textContent = 'Redirecting...';
-                    
-                    // Store admin session (in production, use secure tokens)
-                    sessionStorage.setItem('adminAuthenticated', 'true');
-                    sessionStorage.setItem('adminEmail', email);
                     
                     // Redirect to dashboard
                     setTimeout(() => {
@@ -363,18 +370,42 @@
                     }, 1500);
                 } else {
                     // Error
-                    loadingMsg.style.display = 'none';
-                    errorMsg.textContent = 'Please enter both email and password.';
-                    errorMsg.style.display = 'block';
-                    loginBtn.disabled = false;
-                    loginBtn.textContent = 'Sign In to Dashboard';
+                    throw new Error(data.error || 'Authentication failed');
                 }
-            }, 2000);
+            } catch (error) {
+                loadingMsg.style.display = 'none';
+                errorMsg.textContent = error.message || 'Authentication failed. Please check your credentials.';
+                errorMsg.style.display = 'block';
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Sign In to Dashboard';
+            }
         }
 
         // Check if already authenticated
-        if (sessionStorage.getItem('adminAuthenticated') === 'true') {
-            window.location.href = 'dashboard.html';
+        const token = localStorage.getItem('adminToken');
+        if (token) {
+            // Verify token is still valid
+            fetch(`${API_BASE}/api/admin/verify`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.valid) {
+                    window.location.href = 'dashboard.html';
+                } else {
+                    // Token expired, clear storage
+                    localStorage.removeItem('adminToken');
+                    localStorage.removeItem('adminUser');
+                }
+            })
+            .catch(() => {
+                // Token verification failed, clear storage
+                localStorage.removeItem('adminToken');
+                localStorage.removeItem('adminUser');
+            });
         }
     </script>
 </body>
